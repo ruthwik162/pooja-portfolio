@@ -2,11 +2,83 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+
+    <!-- Title & Favicon -->
+    <title>Pooja Chaudhary | Portfolio</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="Portfolio of Pooja Chaudhary – showcasing skills, projects, and creative work."
+    />
+    <meta
+      name="keywords"
+      content="Pooja Chaudhary, Portfolio, Web Developer, Designer, Projects, React, Vite"
+    />
+    <meta name="author" content="Pooja Chaudhary" />
+
+    <!-- Open Graph (Social Sharing) -->
+    <meta property="og:title" content="Pooja Chaudhary | Portfolio" />
+    <meta
+      property="og:description"
+      content="Explore the work and projects of Pooja Chaudhary."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourdomain.com" />
+    <meta property="og:image" content="/preview.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pooja Chaudhary | Portfolio" />
+    <meta
+      name="twitter:description"
+      content="Explore the work and projects of Pooja Chaudhary."
+    />
+    <meta name="twitter:image" content="/preview.png" />
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Example: Google Fonts (Inter + Playfair Display) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- PWA Manifest (optional) -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Prevent FOUC -->
+    <style>
+      body {
+        visibility: hidden;
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.style.visibility = "visible";
+      });
+    </script>
   </head>
   <body>
+    <noscript>
+      <strong>
+        This app requires JavaScript to run properly. Please enable it in your
+        browser.
+      </strong>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
