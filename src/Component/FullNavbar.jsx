@@ -1,60 +1,86 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { NavbarContext } from '../Context/NavContext'
-import { useNavigate } from 'react-router-dom'
 import { images } from '../assets/assets'
+import { useNavigate } from 'react-router-dom'
 
-const FullNavbar = () => {
-  const fullNavRef = useRef(null)
-  const fullscreenRef = useRef(null)
+const FullScreenNav = () => {
+  const fullNavLinksRef = useRef(null)
+  const fullScreenRef = useRef(null)
+
   const [navOpen, setNavOpen] = useContext(NavbarContext)
+  const navigate = useNavigate();
 
-  const tlRef = useRef(null)
-  const navigate = useNavigate()
 
-  const handleNavClick = (path) => {
-    navigate(path)
-    window.scrollTo(0, 0)
-    setNavOpen(false)
+
+
+  function gsapAnimation() {
+    const tl = gsap.timeline()
+
+    // Show container immediately
+    tl.to('.fullscreennav', {
+      display: 'block',
+      duration: 0
+    })
+
+
+    // Fade in navlinks faster
+    tl.to('.navlink', {
+      opacity: 1,
+      duration: 0.2
+    }, "-=0.15") // slight overlap
+
+    // Show links quickly
+    tl.to('.link', {
+      opacity: 1,
+      rotateX: 0,
+      duration: 0.25,
+      stagger: {
+        amount: 0.15
+      }
+    }, "-=0.1")
   }
 
-  // build timeline once
-  useGSAP(() => {
-    tlRef.current = gsap.timeline({ paused: true })
+  function gsapAnimationReverse() {
+    const tl = gsap.timeline()
 
-    tlRef.current
-      .fromTo(
-        fullscreenRef.current,
-        { autoAlpha: 0, display: 'none' },
-        { autoAlpha: 1, display: 'block', duration: 0.3, ease: 'power2.out' }
-      )
-      .from(
-        '.navLink',
-        { opacity: 0, y: -20, duration: 0.4, ease: 'power2.out' },
-        '-=0.1'
-      )
-      // 🔥 flip animation for links
-      .from(
-        '.link',
-        {
-          opacity: 1,
-          rotateX: 90,
-          transformOrigin: 'top',
-          stagger: 0.15,
-          duration: 0.6,
-          ease: 'back.out(1.2)',
-        },
-        '-=0.2'
-      )
-  }, [])
+    // Hide links quickly
+    tl.to('.link', {
+      opacity: 0,
+      rotateX: 90,
+      duration: 0.2,
+      stagger: {
+        amount: 0.1
+      }
+    })
 
-  // play or reverse on navOpen change
-  useGSAP(() => {
+
+
+    // Fade out navlinks quickly
+    tl.to('.navlink', {
+      opacity: 0,
+      duration: 0.15
+    }, "-=0.1")
+
+    // Hide container instantly
+    tl.to('.fullscreennav', {
+      display: 'none',
+      duration: 0
+    })
+  }
+
+
+
+
+  useGSAP(function () {
     if (navOpen) {
-      tlRef.current.play()
+
+      gsapAnimation()
     } else {
-      tlRef.current.reverse()
+
+      gsapAnimationReverse()
+
     }
   }, [navOpen])
 
@@ -67,38 +93,38 @@ const FullNavbar = () => {
     })
   }
 
-  return (
-    <div
-      id="fullscreennav"
-      ref={fullscreenRef}
-      className="fullscreennav overflow-hidden fixed inset-0 w-full z-50 overflow-y-auto text-white bg-black"
-    >
-      <div ref={fullNavRef} className="relative">
-        {/* Header (logo + close) */}
-        <div className="navLink flex w-full justify-between p-4 sm:p-6 items-start">
-          <div className="w-16 sm:w-20  md:w-22">
+  const handleNavClick = (path) => {
+    navigate(path)
+    window.scrollTo(0, 0)
+    setNavOpen(false)
+  }
 
-            <img src={images.logo} className='w-full h-full object-cover' alt="" />
+  return (
+    <div ref={fullScreenRef} id='fullscreennav' className='fullscreennav fixed h-full bg-black hidden text-white overflow-hidden  w-full z-50 '>
+
+      <div ref={fullNavLinksRef} className='relative'>
+        <div className="navlink flex w-full justify-between lg:p-5 p-2 items-start">
+          <div className=''>
+            <div className='lg:w-36 w-24'>
+              <img src={images.logo} className='w-full h-full object-cover' alt="" />
+            </div>
           </div>
-          {/* Close button */}
-          <div
-            onClick={() => setNavOpen(false)}
-            className="relative cursor-pointer h-8 w-8 sm:h-10 sm:w-10 md:h-16 md:w-16 flex items-center justify-center"
-          >
-            <div className="bg-[#D3FD50] absolute h-full w-0.5 rotate-45"></div>
-            <div className="bg-[#D3FD50] absolute h-full w-0.5 -rotate-45"></div>
+          <div onClick={() => {
+            setNavOpen(false)
+          }} className='lg:h-32 h-20 w-20 lg:w-32 relative cursor-pointer'>
+            <div className='lg:h-44 h-28 lg:w-1 w-0.5 -rotate-45 origin-top absolute bg-[#D3FD50]'></div>
+            <div className='lg:h-44 h-28 lg:w-1 w-0.5 right-0 rotate-45 origin-top absolute bg-[#D3FD50]'></div>
+
           </div>
         </div>
-
-        {/* Links */}
-        <div id="all-links" className="py-40 sm:py-16 lg:py-20">
+        <div className=' py-16'>
           <div onClick={() => handleNavClick("/profile")}
             onMouseEnter={(e) => handleHover(e.currentTarget, true)}
             onMouseLeave={(e) => handleHover(e.currentTarget, false)}
             className='link origin-top cursor-pointer relative border-t-1 border-white'>
             <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Profile</h1>
             <div className='moveLink absolute text-black flex top-0 bg-[#D3FD50]'>
-              <div className='moveX flex items-center'>
+              <div className='moveX z-[-9] flex items-center'>
                 <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View my profile</h2>
                 <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-red-500 rounded-full'></div>
                 <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View my profile</h2>
@@ -163,11 +189,10 @@ const FullNavbar = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
   )
 }
 
-export default FullNavbar
+export default FullScreenNav

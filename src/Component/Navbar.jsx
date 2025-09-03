@@ -50,7 +50,7 @@ const Navbar = () => {
                 <div ref={navYellowRef} className='w-full transition-all absolute top-0 h-0 bg-[#D3FD50]'></div>
 
                 {/* Menu Content */}
-                <div className='h-full relative flex items-center px-[2vw] justify-center md:gap-2 gap-1'>
+                <div className='h-full relative flex items-center px-[2vw] justify-center z-5 md:gap-2 gap-1'>
                     <h1
                         className={`font-[font2] md:text-[2vw] text-[6vw] transition-colors duration-300 ${hovered ? 'text-black' : 'text-white'
                             }`}

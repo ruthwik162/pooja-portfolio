@@ -1,27 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Pooja Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script type="text/javascript">
-      var pathSegmentsToKeep = 1;
+      (function () {
+        const { protocol, host, pathname, search, hash } = window.location;
+        const pathSegments = pathname.split("/").filter(Boolean);
 
-      var l = window.location;
-      l.replace(
-        l.protocol +
-          "//" +
-          l.hostname +
-          (l.port ? ":" + l.port : "") +
-          l.pathname
-            .split("/")
-            .slice(0, 1 + pathSegmentsToKeep)
-            .join("/") +
-          "/?/" +
-          l.pathname.slice(1).split("/").slice(pathSegmentsToKeep).join("/").replace(/&/g, "~and~") +
-          (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
-          l.hash
-      );
+        // If we are not on the root path and it's not a direct file (like .css, .js)
+        if (
+          pathSegments.length > 0 &&
+          !/\.[a-zA-Z0-9]+$/.test(pathSegments[pathSegments.length - 1])
+        ) {
+          // Store original path in query param
+          const redirectPath = pathname + search + hash;
+          const newUrl = `${protocol}//${host}/?redirect=${encodeURIComponent(
+            redirectPath
+          )}`;
+          if (!window.location.search.includes("redirect=")) {
+            window.location.replace(newUrl);
+          }
+        }
+      })();
     </script>
   </head>
-  <body></body>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
 </html>

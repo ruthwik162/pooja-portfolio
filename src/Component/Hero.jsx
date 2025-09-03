@@ -97,13 +97,13 @@ const Hero = () => {
     return (
         <section
             ref={heroRef}
-            className="md:h-[100vh] h-full bg-white pb-10 flex md:flex-row flex-col-reverse md:pt-[8vh] mt-[5vh] justify-center items-start overflow-hidden relative"
+            className="md:h-[89.5vh] h-[90vh]  bg-white pb-10 flex md:flex-row flex-col-reverse md:pt-[8vh] mt-[5vh] justify-center items-start overflow-hidden relative"
         >
             {/* LEFT SIDE */}
             <div className="relative md:w-1/2 md:mt-[5vw] h-full w-full">
                 {/* Name */}
                 <div className="items-start leading-[15vw] px-[4vw] flex-col flex font-[font1] justify-center">
-                    <div className="md:leading-[8vw] leading-[16vw] overflow-hidden">
+                    <div className="md:leading-[8vw] leading-[17vw] overflow-hidden">
                         <div className="bg-white overflow-hidden">
                             <div className="text-[18vw] md:text-[9vw] text font-[font2] uppercase text-black will-change-transform">
                                 Pooja

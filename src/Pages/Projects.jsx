@@ -37,7 +37,7 @@ const Projects = () => {
         })
 
         tl.from('.text', {
-            y: -150,           // start below the div
+            y: -250,           // start below the div
             duration: 1,
             stagger: 0.2,     // delay between each text
             ease: "power3.out"
@@ -46,9 +46,11 @@ const Projects = () => {
 
     return (
         <div>
-            <div className='lg:p-4 p-2 bg-white'>
-                <div className=' pt-[30vh]'>
-                    <h2 className='font-[font2] lg:text-[9.5vw] text-7xl uppercase'>Projects</h2>
+            <div className='lg:p-4 p-2 selection:bg-[#D3FD50] bg-white'>
+                <div className='bg-white mt-[30vh] overflow-hidden'>
+                    <div className='text-[9vw] text font-[font2] uppercase text-black'>
+                        Projects
+                    </div>
                 </div>
                 <div className='-lg:mt-20 lol'>
                     {projects.map(function (elem, idx) {
@@ -62,7 +64,7 @@ const Projects = () => {
 
 
             <div className='bg-white  h-[30vh] md:h-[50vh]'>
-                <div className='flex flex-col items-start justify-center pl-[30%] pt-[10vh] overflow-hidden'> 
+                <div className='flex flex-col items-start justify-center pl-[30%] pt-[10vh] overflow-hidden'>
                     <div className='bg-white leading-[10vw] md:leading-[7vw] overflow-hidden'>
                         <div className='text-[9vw] md:text-[7vw] text font-[font2] uppercase text-black'>
                             Thanks

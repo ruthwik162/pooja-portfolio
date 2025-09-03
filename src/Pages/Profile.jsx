@@ -69,8 +69,8 @@ const Agence = () => {
       });
     }
 
-    // Paragraph animations (About / Education / B.Tech)
-    gsap.utils.toArray(' .education-text, .btech-text').forEach(paragraph => {
+    // Paragraph animations (About / Education / B.Tech / Skills)
+    gsap.utils.toArray(' .education-text, .btech-text, .skills-text').forEach(paragraph => {
       // Split text into words
       const words = paragraph.textContent.split(' ');
       paragraph.innerHTML = words.map(word =>
@@ -128,10 +128,13 @@ const Agence = () => {
       <div id='page1' className='py-1 relative '>
 
         {/* Trim Path SVG */}
-        <div className='absolute  md:-top-22 md:right-[27vw] md:w-[59vw] w-[10vw] -top-26 right-[78vw] '>
+        <div className='absolute  md:-top-22 md:right-[27vw] md:w-[59vw] w-[10vw] -top-26 right-[75vw] '>
 
           <svg className='md:block hidden' width="1328" height="405" viewBox="0 0 1328 405" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path ref={svgPcPathRef} d="M1327.5 316.987C1140.57 316.987 207.667 319.672 207.667 316.987C207.667 275.956 230.142 234.899 265.657 234.289C314.095 233.458 334.561 275.956 334.561 316.987C334.561 348.867 313.93 402 253.796 402C172.874 402 171.524 324.215 169.312 316.987C167.416 310.792 162.57 235.694 86.953 234.632C22.6574 233.728 3 292.015 3 316.987C3 319.736 25.8479 316.987 86.953 316.987C128.529 316.987 144.221 316.987 144.221 316.987C144.221 316.987 144.221 40.5928 144.221 0" stroke="black" stroke-width="5" />
+            <path ref={svgPcPathRef} d="M1327.5 316.987C1140.57 316.987 207.667 319.672 207.667 316.987C207.667 275.956 230.142 234.899 265.657 234.289C314.095 233.458 334.561 275.956 334.561 316.987C334.561 348.867 313.93 402 253.796 402C172.874 402 171.524 324.215 169.312 316.987C167.416 310.792 162.57 235.694 86.953 234.632C22.6574 233.728 3 292.015 3 316.987C3 319.736 25.8479 316.987 86.953 316.987C128.529 316.987 144.221 316.987 144.221 316.987C144.221 316.987 144.221 40.5928 144.221 0" stroke="black" strokeWidth="5" />
+          </svg>
+          <svg className='block md:hidden' width="331" height="297" viewBox="0 0 331 297" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path ref={svgPathRef} d="M330.5 232.035C193.5 232.035 153 234 153 232.035C153 202 169.471 171.946 195.5 171.5C231 170.891 246 202 246 232.035C246 255.371 230.879 294.264 186.808 294.264C127.5 294.264 126.51 237.326 124.889 232.035C123.5 227.5 119.948 172.528 64.5288 171.75C17.4069 171.089 3 213.755 3 232.035C3 234.047 19.7452 232.035 64.5288 232.035C95 232.035 106.5 232.035 106.5 232.035C106.5 232.035 106.5 29.714 106.5 0" stroke="black" strokeWidth="5" />
           </svg>
         </div>
 
@@ -139,7 +142,7 @@ const Agence = () => {
         {/* Rotating Circular Text Overlay */}
         <div
           ref={rotatingTextRef}
-          className="absolute flex md:top-33 top-35 right-[27vw] md:right-[26.5vw] origin-center  items-center justify-center pointer-events-none"
+          className="absolute flex md:top-33 top-45 right-[43vw] md:right-[26.5vw] origin-center  items-center justify-center pointer-events-none"
         >
           <svg className="w-[250px] h-[250px]" viewBox="0 0 200 200">
             <defs>
@@ -165,8 +168,6 @@ const Agence = () => {
         </div>
 
         {/* About & Education Sections */}
-        {/* (keep your existing sections here) */}
-
         <div className='relative font-[font2]'>
           <div className='lg:mt-[25vh] px-2 mt-[42vh] overflow-hidden'>
             <div className='leading-[2vw] overflow-hidden'>
@@ -212,10 +213,22 @@ const Agence = () => {
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently, I am in my 4-1 semester at Malla Reddy University, pursuing my B.Tech in Computer Science and Engineering. Throughout my undergraduate studies, I have been actively involved in hands-on projects and technical learning, which have enhanced my understanding of both theoretical concepts and real-world applications. I am constantly seeking opportunities to improve my skills, explore new technologies, and contribute meaningfully to projects in the field of computer science.
             </p>
           </div>
+          
+          {/* Skills Section */}
+          <div className='leading-[2vw] overflow-hidden'>
+            <div className='lg:mt-[5vh] mt-[6vh]'>
+              <h1 className='md:text-[8vw] text-[15vw] text text-start md:text-end uppercase md:leading-[7vw] leading-[10vw]'>Skills</h1>
+            </div>
+          </div>
+          <div className='lg:pr-[45%] p-3 overflow-hidden'>
+            <p className='lg:text-3xl text-md leading-[1.1] skills-text'>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I have developed expertise in various technologies including Python, Java, JavaScript, React, Node.js, MongoDB, and Express.js. My experience spans both front-end and back-end development, with a focus on creating responsive and user-friendly web applications. I'm also skilled in data analysis, IoT development, and problem-solving, with a strong foundation in algorithms and data structures.
+            </p>
+          </div>
         </div>
       </div>
       <div id='page2' className=" h-[30vh]"></div>
-      
+
     </div>
   )
 }

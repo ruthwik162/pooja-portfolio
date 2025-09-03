@@ -13,7 +13,7 @@ const Image = () => {
       },
       {
         clipPath: 'inset(0 0% 0 0 round 1.5rem)', // fully visible, rounded corners intact
-        duration: 2,
+        duration: 3,
         ease: 'power3.out'
       }
     )
