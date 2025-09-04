@@ -19,6 +19,7 @@ const Contact = () => {
     const imageDivRef = useRef(null)
     const rotatingTextRef = useRef(null)
     const svgPathRef = useRef(null)
+    const svgPcPathRef = useRef(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -73,9 +74,21 @@ const Contact = () => {
             const length = svgPathRef.current.getTotalLength()
             gsap.set(svgPathRef.current, {
                 strokeDasharray: length,
-                strokeDashoffset: length,
+                strokeDashoffset: -length,
             })
             gsap.to(svgPathRef.current, {
+                strokeDashoffset: 0,
+                duration: 3,
+                ease: "power2.inOut",
+            })
+        }
+        if (svgPcPathRef.current) {
+            const length = svgPcPathRef.current.getTotalLength()
+            gsap.set(svgPcPathRef.current, {
+                strokeDasharray: length,
+                strokeDashoffset: length,
+            })
+            gsap.to(svgPcPathRef.current, {
                 strokeDashoffset: 0,
                 duration: 3,
                 ease: "power2.inOut",
@@ -116,7 +129,7 @@ const Contact = () => {
             {/* Trim Path SVG */}
             <div className='absolute md:-top-2 md:-left-[1vw] md:w-[59vw] w-[10vw] -top-30 right-[75vw] z-0'>
                 <svg className='md:block hidden' width="209" height="1140" viewBox="0 0 209 1370" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path ref={svgPathRef} d="M206.5 4C150.646 34.5 196 151.5 109.5 151.5C76.0427 151.5 49.9998 136.5 49.9998 111.5C49.9998 86.5 73.5112 69 95.2914 69C118.627 69 130.999 83.9412 130.999 100C130.999 129 105.5 134 89.4993 134C35.8629 134 4.00024 164.5 4 225.5C3.9998 276.476 26.2086 342 94 348C110.209 349.435 202 352 202 267C202 182 69.7566 204 69.7566 204C69.7566 204 66.9993 1206 66.9993 1370" stroke="black" strokeWidth="7" />
+                    <path ref={svgPcPathRef} d="M206.5 4C150.646 34.5 196 151.5 109.5 151.5C76.0427 151.5 49.9998 136.5 49.9998 111.5C49.9998 86.5 73.5112 69 95.2914 69C118.627 69 130.999 83.9412 130.999 100C130.999 129 105.5 134 89.4993 134C35.8629 134 4.00024 164.5 4 225.5C3.9998 276.476 26.2086 342 94 348C110.209 349.435 202 352 202 267C202 182 69.7566 204 69.7566 204C69.7566 204 66.9993 1206 66.9993 1370" stroke="black" strokeWidth="7" />
                 </svg>
                 <svg className='block md:hidden' width="331" height="297" viewBox="0 0 331 297" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path ref={svgPathRef} d="M330.5 232.035C193.5 232.035 153 234 153 232.035C153 202 169.471 171.946 195.5 171.5C231 170.891 246 202 246 232.035C246 255.371 230.879 294.264 186.808 294.264C127.5 294.264 126.51 237.326 124.889 232.035C123.5 227.5 119.948 172.528 64.5288 171.75C17.4069 171.089 3 213.755 3 232.035C3 234.047 19.7452 232.035 64.5288 232.035C95 232.035 106.5 232.035 106.5 232.035C106.5 232.035 106.5 29.714 106.5 0" stroke="black" strokeWidth="5" />
@@ -248,8 +261,8 @@ const Contact = () => {
                                         contactRef.current.style.height = "0%";
                                     }
                                     setHoveredContact(false);
-                                }} 
-                                className="click bg-black h-[12vw] md:h-[8vw] lg:h-[4vw] w-[50vw] md:w-[25vw] lg:w-[15vw] relative cursor-pointer rounded-full overflow-hidden" 
+                                }}
+                                className="click bg-black h-[12vw] md:h-[8vw] lg:h-[4vw] w-[50vw] md:w-[25vw] lg:w-[15vw] relative cursor-pointer rounded-full overflow-hidden"
                             >
                                 <div ref={contactRef} className="absolute bottom-0 left-0 w-full h-0 bg-[#D3FD50] transition-all duration-300"></div>
                                 <div className="h-full flex border border-[#D3FD50] items-center justify-center relative z-10">

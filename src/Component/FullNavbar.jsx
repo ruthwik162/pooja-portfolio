@@ -100,7 +100,7 @@ const FullScreenNav = () => {
   }
 
   return (
-    <div ref={fullScreenRef} id='fullscreennav' className='fullscreennav fixed h-full bg-black hidden text-white overflow-hidden  w-full z-50 '>
+    <div ref={fullScreenRef} id='fullscreennav' className='fullscreennav fixed h-full bg-black hidden text-white overflow-hidden md:top-0 -top-0 w-full z-99 '>
 
       <div ref={fullNavLinksRef} className='relative'>
         <div className="navlink flex w-full justify-between lg:p-5 p-2 items-start">
@@ -117,7 +117,7 @@ const FullScreenNav = () => {
 
           </div>
         </div>
-        <div className=' py-16'>
+        <div className=' py-16 mt-[20vw] md:mt-[1vw]'>
           <div onClick={() => handleNavClick("/profile")}
             onMouseEnter={(e) => handleHover(e.currentTarget, true)}
             onMouseLeave={(e) => handleHover(e.currentTarget, false)}
@@ -169,7 +169,7 @@ const FullScreenNav = () => {
           <div onClick={() => handleNavClick("/contact")}
             onMouseEnter={(e) => handleHover(e.currentTarget, true)}
             onMouseLeave={(e) => handleHover(e.currentTarget, false)}
-            className='link origin-top cursor-pointer relative border-t-1 border-white'>
+            className='link origin-top cursor-pointer relative border-y-1 border-white'>
             <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Contact</h1>
             <div className='moveLink absolute z-1 text-black flex top-0 bg-[#D3FD50]'>
               <div className='moveX flex items-center'>
