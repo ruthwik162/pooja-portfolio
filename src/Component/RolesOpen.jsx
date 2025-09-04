@@ -94,9 +94,9 @@ const RolesOpen = () => {
                         className="relative overflow-hidden border-b border-gray-200 cursor-pointer"
                     >
                         
-                        <div className="relative py-3 flex items-center gap-[20vh] mx-[10vw] md:mx-[20vw] z-10">
+                        <div className="relative py-3 flex items-center gap-3 md:gap-[20vh] mx-[10vw] md:mx-[20vw] z-10">
                             <span className="text-2xl text-black">{icons[i]}</span>
-                            <span className="text-[1.2vw] md:text-[1vw] text-black">
+                            <span className="text-[3vw] md:text-[1vw] text-black">
                                 {role}
                             </span>
                         </div>
