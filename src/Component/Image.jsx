@@ -24,7 +24,7 @@ const Image = () => {
       {/* Main Image */}
       <div
         ref={imgWrapperRef}
-        className='image md:w-[25vw] sm:[w-40vw]  w-[65vw] mt-[5vh] md:mt-[10vh] z-4 rounded-2xl relative overflow-hidden'
+        className='image md:w-[30vw] lg:w-[28vw] xl:w-[25vw] sm:w-[45vw]  w-[65vw] mt-[5vh] md:mt-[10vh] lg:mt-[5vh] xl:mt-[10vh] z-4 rounded-2xl relative overflow-hidden'
       >
         <img
           src={images.pooja2}

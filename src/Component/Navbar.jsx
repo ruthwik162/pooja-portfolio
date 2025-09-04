@@ -44,22 +44,22 @@ const Navbar = () => {
                     navYellowRef.current.style.height = "0%"
                     setHovered(false)
                 }}
-                className='bg-black h-[12vw] md:h-[3vw] relative cursor-pointer w-[38vw] md:w-[15vw]'>
+                className='bg-black h-[12vw]  sm:h-[6vw] md:h-[7.2vw] lg:h-[6.7vw] xl:h-[3vw] relative cursor-pointer w-[38vw] sm:w-[30vw] md:w-[19vw] lg:w-[20vw] xl:w-[15vw] '>
 
                 {/* Yellow BG */}
                 <div ref={navYellowRef} className='w-full transition-all absolute top-0 h-0 bg-[#D3FD50]'></div>
 
                 {/* Menu Content */}
-                <div className='h-full relative flex items-center px-[2vw] justify-center z-5 md:gap-2 gap-1'>
+                <div className='h-full relative flex items-center px-[2vw] justify-center z-5 md:gap-2 sm:gap-3 gap-1'>
                     <h1
-                        className={`font-[font2] md:text-[2vw] text-[6vw] transition-colors duration-300 ${hovered ? 'text-black' : 'text-white'
+                        className={`font-[font2] sm:text-[3vw] md:text-[3vw] lg:text-[2vw] text-[6vw] transition-colors duration-300 ${hovered ? 'text-black' : 'text-white'
                             }`}
                     >
                         Menu
                     </h1>
                     <div className='flex flex-col gap-2 items-end justify-center'>
-                        <div className={`md:w-20 h-0.5 w-15 transition-colors duration-300 ${hovered ? 'bg-black' : 'bg-white'}`}></div>
-                        <div className={`md:w-12 h-[1.5px] w-7 transition-colors duration-300 ${hovered ? 'bg-black' : 'bg-white'}`}></div>
+                        <div className={`md:w-20 lg:w-22 xl:w-20 h-0.5 w-15 sm:w-20 transition-colors duration-300 ${hovered ? 'bg-black' : 'bg-white'}`}></div>
+                        <div className={`md:w-12 lg:w-14  h-[1.5px] w-7 sm:w-13 transition-colors duration-300 ${hovered ? 'bg-black' : 'bg-white'}`}></div>
                     </div>
                 </div>
             </div>
