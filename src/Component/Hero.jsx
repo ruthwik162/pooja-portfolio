@@ -39,14 +39,16 @@ const Hero = () => {
         const unlockAudio = () => {
             if (audioRef.current) {
                 audioRef.current.play().then(() => {
-                    audioRef.current.pause();
+                    audioRef.current.pause();  // immediately pause
                     audioRef.current.currentTime = 0;
                 });
             }
-            window.removeEventListener("click", unlockAudio);
+            document.removeEventListener("click", unlockAudio);
         };
-        window.addEventListener("click", unlockAudio);
+
+        document.addEventListener("click", unlockAudio);
     }, []);
+
 
 
 
@@ -231,7 +233,7 @@ const Hero = () => {
                     </div>
 
                     {/* 🎵 hidden audio element */}
-                    <audio ref={audioRef} src="/hover1.mp3" preload="auto" />
+                    <audio ref={audioRef} src="/public/hover1.mp3" preload="auto" />
                 </div>
 
                 {/* Tagline + Buttons */}
