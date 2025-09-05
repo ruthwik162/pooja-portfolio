@@ -72,40 +72,46 @@ const Agence = () => {
     }
 
     // Paragraph animations (About / Education / B.Tech / Skills)
-// Paragraph animations with rotation (line by line or word by word)
-gsap.utils.toArray(' p.education-text, p.btech-text, p.skills-text').forEach(paragraph => {
-  // Split into words
-  const words = paragraph.textContent.split(' ');
-  paragraph.innerHTML = words.map(word =>
-    `<span class="word inline-block opacity-0 rotate-12">${word} </span>`
-  ).join('');
+    // Paragraph animations with rotation (line by line or word by word)
+    gsap.utils.toArray('.about-text, .education-text, .btech-text, .skills-text').forEach(paragraph => {
+      // Split into words and wrap each word
+      const words = paragraph.textContent.split(' ');
+      paragraph.innerHTML = words.map(word =>
+        `<span class="word-block"><span class="word inline-block opacity-0 transform translate-y-8">${word}</span></span>`
+      ).join(' ');
 
-  const wordElements = paragraph.querySelectorAll('.word');
+      const wordElements = paragraph.querySelectorAll('.word');
 
-  gsap.fromTo(wordElements, 
-    {
-      y: 50,
-      opacity: 0,
-      rotation: 20, // start rotated
-      transformOrigin: "center center"
-    },
-    {
-      y: 0,
-      opacity: 1,
-      rotation: 0, // end straight
-      duration: 1,
-      stagger: 0.05,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: paragraph,
-        start: "top 85%",
-        end: "top 50%",
-        scrub: true,
-        toggleActions: "play none none reverse",
-      }
-    }
-  );
-});
+      // Create a timeline for more control
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: paragraph,
+          start: "top 85%",
+          end: "top 50%",
+          scrub: 1.5,
+          toggleActions: "play none none reverse",
+        }
+      });
+
+      // Animate words with staggered effects
+      tl.fromTo(wordElements,
+        {
+          y: 40,
+          opacity: 0,
+          rotation: 8,
+          filter: "blur(2px)"
+        },
+        {
+          y: 0,
+          opacity: 1,
+          rotation: 0,
+          filter: "blur(0px)",
+          duration: 1.8,
+          stagger: 0.03,
+          ease: "power4.out"
+        }
+      );
+    });
 
 
     // Title animations
@@ -120,6 +126,24 @@ gsap.utils.toArray(' p.education-text, p.btech-text, p.skills-text').forEach(par
           scrollTrigger: {
             trigger: title,
             start: "top 90%",
+            end: "top 60%",
+            scrub: true,
+          }
+        }
+      );
+    });
+
+    gsap.utils.toArray('.textMd').forEach(title => {
+      gsap.fromTo(title,
+        { y: 150, opacity: 1 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: title,
+            start: "top 100%",
             end: "top 60%",
             scrub: true,
           }
@@ -164,7 +188,7 @@ gsap.utils.toArray(' p.education-text, p.btech-text, p.skills-text').forEach(par
 
 
   return (
-    <div className='parent bg-white'>
+    <div className='parent bg-white overflow-x-hidden'>
       <div id='page1' className='py-1 relative '>
 
         {/* Trim Path SVG */}
@@ -203,16 +227,16 @@ gsap.utils.toArray(' p.education-text, p.btech-text, p.skills-text').forEach(par
         </div>
 
         {/* Image */}
-        <div ref={imageDivRef} className='absolute overflow-hidden lg:h-[40vw] xl:h-[40vw]   md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-30 xl:left-[5vw] lg:-left-[2vw] -top-60 md:-left-[15vw] right-[3vw]' >
+        <div ref={imageDivRef} className='absolute overflow-hidden lg:h-[40vw] xl:h-[40vw] z-5   md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-30 xl:left-[10vw] lg:-left-[2vw] -top-60 md:-left-[15vw] right-[3vw]' >
           <Image className="w-full h-full object-cover" />
         </div>
 
         {/* About & Education Sections */}
         <div className='relative font-[font2]'>
-          <div className='xl:mt-[25vh] lg:mt-[20vh] md:mt-[5vh] px-2 mt-[42vh] overflow-hidden'>
+          <div className='xl:mt-[25vh] lg:mt-[20vh] md:mt-[5vh] px-2 mt-[42vh]  overflow-hidden'>
             <div className='leading-[2vw] overflow-hidden'>
               <div className='lg:mt-[5vh] mt-[30vh]'>
-                <h1 className='md:text-[10vw] text-[15vw] maintext text-start md:text-center uppercase md:leading-[7vw] leading-[9vw]'>About</h1>
+                <h1 className='md:text-[10vw] text-[15vw] maintext text-start md:text-center uppercase md:leading-[7vw] leading-[9vw] '>About</h1>
               </div>
             </div>
             <div className='leading-[10vw] overflow-hidden'>
@@ -223,7 +247,21 @@ gsap.utils.toArray(' p.education-text, p.btech-text, p.skills-text').forEach(par
               </div>
             </div>
           </div>
-          <div className='md:pl-[40%] md:-mt-[4vw] -mt-7 p-3 overflow-hidden'>
+          <div className='xl:block hidden overflow-hidden'>
+            <div className='leading-[2vw] xl:mt-[25vh] lg:mt-[20vh] absolute xl:right-[32vw] xl:-top-[13.4vw] md:mt-[5vh] px-2 z-10 mt-[42vh] overflow-hidden'>
+              <div className='lg:mt-[5vh] mt-[30vh]'>
+                <h1 className='md:text-[10vw] text-[15vw] maintext text-start md:text-center uppercase md:leading-[7vw] leading-[9vw] stroke-text '>About</h1>
+              </div>
+            </div>
+            <div className='leading-[2vw] xl:mt-[40vh] lg:mt-[20vh] absolute xl:right-[50.6vw] xl:-top-[13.4vw] md:mt-[5vh] px-2 z-10 mt-[42vh] overflow-hidden'>
+              <div className='lg:mt-[5vh] mt-[30vh]'>
+                <h1 className='md:text-[10vw] text-[15vw] maintext text-start md:text-center uppercase md:leading-[7vw] leading-[9vw] stroke-text '>Me</h1>
+              </div>
+            </div>
+
+          </div>
+
+          <div className='md:pl-[40%] md:-mt-[4vw] lg:-mt-[5vh] -mt-7 p-3 overflow-hidden'>
             <p className='lg:text-[2.1vw] text-[5vw] md:text-[3vw] leading-[1] about-text'>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I'm&nbsp; <span className='text-red-600 font-[font2] md:text-[3.5vw]'>Pooja</span>, &nbsp;&nbsp;and I am currently in the final year of my B.Tech in Computer Science and Engineering at Malla Reddy University. Over the course of my studies, I have had the opportunity to work on several projects that span a wide range of technologies, including Python, Java, MERN stack development, Data Analytics, and IoT. These experiences have helped me build a strong foundation in programming and problem-solving, and have fueled my passion for technology and innovation.
             </p>
@@ -235,21 +273,21 @@ gsap.utils.toArray(' p.education-text, p.btech-text, p.skills-text').forEach(par
           </div>
           <div className='leading-[2vw]  overflow-hidden'>
             <div className='lg:-mt-[1vh] mt-[4vh]'>
-              <h1 className='md:text-[4vw] text-[7vw] text text-start md:text-end uppercase md:leading-[7vw] leading-[9vw]'>10th & Inter</h1>
+              <h1 className='md:text-[4vw] text-[7vw] textMd text-start md:text-end uppercase md:leading-[7vw] leading-[9vw]'>10th & Inter</h1>
             </div>
           </div>
           <div className='lg:pl-[40%] md:pl-[40%]  p-3 overflow-hidden'>
-            <p className='lg:text-3xl text-md leading-[1.1] education-text'>
+            <p className='lg:text-[1.6vw] text-md leading-[1.1] education-text'>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I completed my schooling at KGP School in Kothagudem, where I consistently focused on academics and extracurricular activities. I am proud to mention that I secured a perfect GPA of 10 in my 10th board examinations. Following that, I pursued my intermediate studies in the MPC stream at Narayana Junior College, Telangana, where I scored an impressive 95% in the Intermediate Public Exams. These early educational achievements laid a solid foundation for my journey in higher education.
             </p>
           </div>
           <div className='leading-[2vw] overflow-hidden'>
             <div className='lg:-mt-[1vh] mt-[4vh]'>
-              <h1 className='md:text-[4vw] text-[7vw] text text-start md:text-end uppercase md:leading-[7vw] leading-[9vw]'>Bachelors</h1>
+              <h1 className='md:text-[4vw] text-[7vw] textMd text-start md:text-end uppercase md:leading-[7vw] leading-[9vw]'>Bachelors</h1>
             </div>
           </div>
           <div className='lg:pl-[40%] p-3 mt-4 md:pl-[40%]  overflow-hidden'>
-            <p className='lg:text-3xl text-md leading-[1.1] btech-text'>
+            <p className='lg:text-[1.6vw] text-md leading-[1.1] btech-text'>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently, I am in my 4-1 semester at Malla Reddy University, pursuing my B.Tech in Computer Science and Engineering. Throughout my undergraduate studies, I have been actively involved in hands-on projects and technical learning, which have enhanced my understanding of both theoretical concepts and real-world applications. I am constantly seeking opportunities to improve my skills, explore new technologies, and contribute meaningfully to projects in the field of computer science.
             </p>
           </div>
@@ -260,24 +298,24 @@ gsap.utils.toArray(' p.education-text, p.btech-text, p.skills-text').forEach(par
       </div>
       <div id='page2' className=" bg-white">
 
-        <div className='relative'>
+        <div className='relative mt-[5vh]'>
           <div className='bg-white overflow-hidden'>
-            <div className='absolute overflow-hidden imagedown lg:h-[40vw] xl:h-[40vw] -rotate-90  md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-10 xl:-right-[15vw] lg:-right-[2vw] -top-60 md:-right-[15vw] right-[3vw]' >
+            <div className='absolute overflow-hidden imagedown lg:h-[40vw] xl:h-[40vw] -rotate-90  md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-10 xl:-right-[15vw] lg:-right-[2vw] -top-20 md:-right-[15vw] -right-[32vw]' >
               <img src={images.header} alt="" />
             </div>
           </div>
           <div className='leading-[2vw] overflow-hidden'>
-            <div className='lg:mt-[5vh] mt-[6vh]'>
-              <h1 className='md:text-[8vw] text-[15vw] text font-[font2] text-start md:text-end uppercase md:leading-[7vw] leading-[10vw]'>Skills</h1>
+            <div className='lg:mt-[10vh] xl:mt-[15vh]'>
+              <h1 className='md:text-[8vw] text-[15vw] text font-[font2] text-start md:text-start uppercase md:leading-[7vw] leading-[10vw]'>Skills</h1>
             </div>
           </div>
           <div className='lg:pr-[40%] p-3 overflow-hidden'>
-            <p className='lg:text-3xl text-md leading-[1.2] font-[font1] skills-text'>
+            <p className='lg:text-[1.6vw] text-md xl:pt-[2vh] leading-[1.2] font-[font1] skills-text'>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I have developed expertise in various technologies including Python, Java, JavaScript, React, Node.js, MongoDB, and Express.js. My experience spans both front-end and back-end development, with a focus on creating responsive and user-friendly web applications. I'm also skilled in data analysis, IoT development, and problem-solving, with a strong foundation in algorithms and data structures.
             </p>
           </div>
         </div>
-        <div>
+        <div className=' -mt-[15vh] md:mt-[15vh]'>
           <RolesOpen />
         </div>
       </div>

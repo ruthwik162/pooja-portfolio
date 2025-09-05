@@ -40,7 +40,7 @@ const RolesOpen = () => {
     const audioRef = useRef(null);
 
     useEffect(() => {
-        // ✅ Lenis smooth scroll setup
+        // ✅ Lenis smooth scroll
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -55,7 +55,10 @@ const RolesOpen = () => {
 
         // ✅ GSAP hover animations + sound
         rolesRef.current.forEach((el) => {
+            if (!el) return;
             const fill = el.querySelector(".fill");
+            const text = el.querySelector(".role-text");
+            const icon = el.querySelector(".role-icon");
 
             gsap.set(fill, { scaleY: 0, transformOrigin: "bottom" });
 
@@ -63,6 +66,12 @@ const RolesOpen = () => {
                 gsap.to(fill, {
                     scaleY: 1,
                     duration: 0.5,
+                    ease: "power2.out",
+                });
+
+                gsap.to([text, icon], {
+                    color: "#ffffff",
+                    duration: 0.3,
                     ease: "power2.out",
                 });
 
@@ -79,24 +88,29 @@ const RolesOpen = () => {
                     duration: 0.5,
                     ease: "power3.out",
                 });
+
+                gsap.to([text, icon], {
+                    color: "#000000",
+                    duration: 0.3,
+                    ease: "power2.out",
+                });
             });
         });
     }, []);
 
     return (
-        <div className="bg-white min-h-screen w-full flex flex-col items-center justify-center p-10">
-            <h2 className="text-xl font-semibold mb-6">Skills</h2>
-            <div className="w-full max-w-9xl space-y-1">
+        <div className="bg-white min-h-screen w-full flex flex-col items-center justify-center pt-3 md:pt-10">
+            <h2 className="text-[10vw] md:text-[5vw] font-[font2] mb-6">Skills</h2>
+            <div className="w-full max-w-9xl font-[font2]">
                 {roles.map((role, i) => (
                     <div
                         key={i}
                         ref={(el) => (rolesRef.current[i] = el)}
                         className="relative overflow-hidden border-b border-gray-200 cursor-pointer"
                     >
-                        
                         <div className="relative py-3 flex items-center gap-3 md:gap-[20vh] mx-[10vw] md:mx-[20vw] z-10">
-                            <span className="text-2xl text-black">{icons[i]}</span>
-                            <span className="text-[3vw] md:text-[1vw] text-black">
+                            <span className="role-icon text-2xl text-black">{icons[i]}</span>
+                            <span className="role-text text-[3vw] md:text-[1vw] text-black">
                                 {role}
                             </span>
                         </div>
@@ -107,7 +121,7 @@ const RolesOpen = () => {
             </div>
 
             {/* ✅ Single audio tag used for all hovers */}
-            <audio ref={audioRef} src={music.click} preload="auto" />
+            <audio ref={audioRef} src={music.vibrate} preload="auto" />
         </div>
     );
 };

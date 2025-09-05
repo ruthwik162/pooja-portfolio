@@ -2,7 +2,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { NavbarContext } from '../Context/NavContext'
-import { images } from '../assets/assets'
+import { images, logos } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 
 const FullScreenNav = () => {
@@ -106,7 +106,7 @@ const FullScreenNav = () => {
         <div className="navlink flex w-full justify-between lg:p-5 p-2 items-start">
           <div className=''>
             <div className='lg:w-36 w-24'>
-              <img src={images.logo} className='w-full h-full object-cover' alt="" />
+              <img src={logos.logonav}  className='w-full h-full bg-white p-1 rounded-3xl object-cover' alt="" />
             </div>
           </div>
           <div onClick={() => {

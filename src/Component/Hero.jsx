@@ -6,7 +6,7 @@ import Image from "./Image.jsx";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroButtons from "./HeroButtons.jsx";
 import Lenis from "@studio-freight/lenis";
-import { images } from "../assets/assets.js";
+import { images, music } from "../assets/assets.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,11 +14,21 @@ const Hero = () => {
     const heroRef = useRef(null);
     const pathRef = useRef(null);
     const cursorRef = useRef(null);
+    const cursorInnerRef = useRef(null);
     const imageContainerRef = useRef(null);
     const [hovering, setHovering] = useState(false);
 
+    // 🎵 audio ref
+    const audioRef = useRef(null);
+
+    const playSound = () => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0; // restart each time
+            audioRef.current.play().catch(() => {}); // handle autoplay restrictions
+        }
+    };
+
     useEffect(() => {
-        // Lenis setup
         const lenis = new Lenis({
             duration: 1.3,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -40,6 +50,11 @@ const Hero = () => {
     }, []);
 
     useEffect(() => {
+        gsap.set(cursorRef.current, {
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+        });
+
         const moveCursor = (e) => {
             gsap.to(cursorRef.current, {
                 x: e.clientX,
@@ -48,76 +63,30 @@ const Hero = () => {
                 ease: "power3.out",
             });
         };
+
         window.addEventListener("mousemove", moveCursor);
         return () => window.removeEventListener("mousemove", moveCursor);
     }, []);
 
-    // Enhanced image hover animation
     useEffect(() => {
-        if (!imageContainerRef.current) return;
-
-        const imageElement = imageContainerRef.current.querySelector("img");
-        if (!imageElement) return;
-
-        // Set initial transform origin to center for smoother scaling
-        gsap.set(imageElement, {
-            transformOrigin: "center",
-            scale: 1,
-        });
-
-        const handleMouseEnter = () => {
-            gsap.to(imageElement, {
-                scale: 1.05,
-                duration: 0.8,
-                ease: "power2.out",
-                overwrite: "auto",
-            });
-        };
-
-        const handleMouseLeave = () => {
-            gsap.to(imageElement, {
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out",
-                overwrite: "auto",
-            });
-        };
-
-        imageContainerRef.current.addEventListener("mouseenter", handleMouseEnter);
-        imageContainerRef.current.addEventListener("mouseleave", handleMouseLeave);
-
-        return () => {
-            if (imageContainerRef.current) {
-                imageContainerRef.current.removeEventListener("mouseenter", handleMouseEnter);
-                imageContainerRef.current.removeEventListener("mouseleave", handleMouseLeave);
-            }
-        };
-    }, []);
-
-    // Smooth GSAP scaling for cursor
-    useEffect(() => {
-        if (!cursorRef.current) return;
-        const cursorInner = cursorRef.current.querySelector("div");
-
-        if (!cursorInner) return;
+        if (!cursorInnerRef.current) return;
 
         if (hovering) {
-            gsap.to(cursorInner, {
-                width: 64,
-                height: 64,
-                duration: 1.2,
+            gsap.to(cursorInnerRef.current, {
+                width: 80,
+                height: 80,
+                duration: 0.5,
                 ease: "expo.out",
             });
         } else {
-            gsap.to(cursorInner, {
+            gsap.to(cursorInnerRef.current, {
                 width: 20,
                 height: 20,
-                duration: 1.2,
+                duration: 0.5,
                 ease: "expo.out",
             });
         }
     }, [hovering]);
-
 
     useGSAP(
         () => {
@@ -174,54 +143,76 @@ const Hero = () => {
             <div
                 ref={cursorRef}
                 className="md:fixed hidden md:flex top-0 left-0 pointer-events-none z-[9999] items-center justify-center"
+                style={{ transform: "translate(-50%, -50%)" }}
             >
                 <div
-                    className="flex items-center justify-center rounded-full overflow-hidden"
+                    ref={cursorInnerRef}
+                    className="flex items-center justify-center rounded-full overflow-hidden bg-red-700"
                     style={{
-                        backgroundColor: "#b91c1c", // Tailwind bg-red-700
+                        width: 20,
+                        height: 20,
+                        transition: "background-color 0.3s ease",
                     }}
                 >
                     {hovering && (
                         <img
                             src={images.cursor}
                             alt="cursor"
-                            className="w-26 h-26 object-contain"
+                            className="w-full h-full object-contain"
                             style={{ pointerEvents: "none" }}
                         />
                     )}
                 </div>
             </div>
 
-
-
             {/* LEFT SIDE */}
             <div className="relative md:w-2/3 md:mt-[5vw] h-full w-full">
                 {/* Name */}
                 <div className="items-start leading-[15vw] px-[4vw] flex-col flex font-[font1] justify-center">
-                    <div
-                        className="md:leading-[8vw] leading-[17vw] overflow-hidden"
-                        onMouseEnter={() => setHovering(true)}
-                        onMouseLeave={() => setHovering(false)}
-                    >
+                    <div className="md:leading-[8vw] leading-[17vw] overflow-hidden">
                         <div className="bg-white overflow-hidden">
-                            <div className="text-[18vw] md:text-[9vw] text font-[font2] uppercase text-black will-change-transform">
+                            <div
+                                onMouseEnter={() => {
+                                    setHovering(true);
+                                    playSound(); // 🎵 play sound here
+                                }}
+                                onMouseLeave={() => setHovering(false)}
+                                className="text-[18vw] md:text-[9vw] text font-[font2] uppercase text-black will-change-transform"
+                            >
                                 Pooja
                             </div>
                         </div>
                         <div className="bg-white overflow-hidden">
-                            <div className="text-[15vw] md:text-[9vw] text font-[font2] uppercase text-black will-change-transform">
+                            <div
+                                onMouseEnter={() => {
+                                    setHovering(true);
+                                    playSound();
+                                }}
+                                onMouseLeave={() => setHovering(false)}
+                                className="text-[15vw] md:text-[9vw] text font-[font2] uppercase text-black will-change-transform"
+                            >
                                 Chaudhary
                             </div>
                         </div>
                         <div className="bg-white overflow-hidden">
-                            <div className="text-[16vw] md:text-[9vw] text font-[font1] uppercase text-black will-change-transform">
+                            <div
+                                onMouseEnter={() => {
+                                    setHovering(true);
+                                    playSound();
+                                }}
+                                onMouseLeave={() => setHovering(false)}
+                                className="text-[16vw] md:text-[9vw] text font-[font1] uppercase text-black will-change-transform"
+                            >
                                 Meda
                             </div>
                         </div>
                     </div>
+
+                    {/* 🎵 hidden audio element */}
+                    <audio ref={audioRef} src={music.vibrate} preload="auto" />
                 </div>
 
-                {/* Tagline */}
+                {/* Tagline + Buttons */}
                 <div className="items-start flex-col pt-[2vw] px-[4vw] flex font-[font2] justify-center">
                     <div className="text-base md:text-[1.2vw] text-[3vw] leading-[3vw] md:leading-[1.3vw]">
                         <div className="bg-white overflow-hidden">
@@ -266,7 +257,6 @@ const Hero = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
 
             {/* RIGHT SIDE */}

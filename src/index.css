@@ -122,3 +122,11 @@ body {
   background: #D3FD50;
   color: #000;
 }
+
+
+
+.stroke-text {
+  color: transparent;                /* Fill */
+  -webkit-text-stroke: 1px black; /* Stroke around each letter */
+  paint-order: stroke fill;    /* Ensures stroke is visible */
+}

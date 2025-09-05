@@ -12,6 +12,9 @@ const Contact = () => {
         subject: '',
         message: ''
     })
+    const [errors, setErrors] = useState({})
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [toast, setToast] = useState({ show: false, message: '', type: '' })
 
     const contactRef = useRef(null);
     const [hoveredContact, setHoveredContact] = useState(false);
@@ -20,6 +23,42 @@ const Contact = () => {
     const rotatingTextRef = useRef(null)
     const svgPathRef = useRef(null)
     const svgPcPathRef = useRef(null);
+    const toastRef = useRef(null);
+
+    const validateForm = () => {
+        const newErrors = {}
+
+        // Name validation
+        if (!formData.name.trim()) {
+            newErrors.name = 'Name is required'
+        } else if (formData.name.trim().length < 2) {
+            newErrors.name = 'Name must be at least 2 characters'
+        }
+
+        // Email validation
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email is required'
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = 'Please enter a valid email address'
+        }
+
+        // Subject validation
+        if (!formData.subject.trim()) {
+            newErrors.subject = 'Subject is required'
+        } else if (formData.subject.trim().length < 5) {
+            newErrors.subject = 'Subject must be at least 5 characters'
+        }
+
+        // Message validation
+        if (!formData.message.trim()) {
+            newErrors.message = 'Message is required'
+        } else if (formData.message.trim().length < 10) {
+            newErrors.message = 'Message must be at least 10 characters'
+        }
+
+        setErrors(newErrors)
+        return Object.keys(newErrors).length === 0
+    }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -27,21 +66,94 @@ const Contact = () => {
             ...prev,
             [name]: value
         }))
+
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }))
+        }
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        // Form submission logic would go here
-        console.log('Form submitted:', formData)
-        // You would typically send this data to your backend
-        alert('Thank you for your message! I will get back to you soon.')
-        setFormData({
-            name: '',
-            email: '',
-            subject: '',
-            message: ''
-        })
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type })
+
+        // Animate toast in
+        gsap.fromTo(toastRef.current,
+            { y: -100, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.7)" }
+        )
+
+        // Animate toast out after delay
+        setTimeout(() => {
+            if (toastRef.current) {
+                gsap.to(toastRef.current, {
+                    y: -100,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.in",
+                    onComplete: () => setToast({ show: false, message: '', type: '' })
+                })
+            }
+        }, 3000)
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        if (!validateForm()) {
+            // Shake animation for invalid form
+            gsap.to('.contact-form', {
+                x: 10,
+                duration: 0.1,
+                repeat: 5,
+                yoyo: true,
+                ease: "power1.inOut"
+            })
+            showToast('Please fix the errors in the form', 'error')
+            return
+        }
+
+        setIsSubmitting(true)
+
+        try {
+            // Create URL-encoded form data
+            const formDataEncoded = new URLSearchParams()
+            formDataEncoded.append('name', formData.name)
+            formDataEncoded.append('email', formData.email)
+            formDataEncoded.append('subject', formData.subject)
+            formDataEncoded.append('message', formData.message)
+
+            const response = await fetch("https://portfolio-backend-q8dg.onrender.com/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+
+
+            if (response.ok) {
+                showToast("Thank you for your message! I will get back to you soon.")
+                setFormData({
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: ''
+                })
+            } else {
+                const errorData = await response.text()
+                showToast(errorData || "Something went wrong, please try again.", "error")
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error)
+            showToast("Network error. Please try again later.", "error")
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+
 
     useGSAP(function () {
         // Pin the image
@@ -124,7 +236,27 @@ const Contact = () => {
     })
 
     return (
-        <div id='page1' className='pt-1 min-h-screen w-full bg-white relative overflow-x-hidden'>
+        <div id='page1' className='pt-1 min-h-screen w-full bg-white relative overflow-hidden'>
+
+            {/* Toast Notification */}
+            {toast.show && (
+                <div
+                    ref={toastRef}
+                    className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-full shadow-lg font-medium flex items-center ${toast.type === 'error' ? 'bg-red-500 text-white' : 'bg-[#D3FD50] text-black'
+                        }`}
+                >
+                    {toast.type === 'error' ? (
+                        <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                    ) : (
+                        <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                    )}
+                    {toast.message}
+                </div>
+            )}
 
             {/* Trim Path SVG */}
             <div className='absolute md:-top-2 md:-left-[1vw] md:w-[59vw] w-[10vw] -top-30 right-[75vw] z-0'>
@@ -159,16 +291,16 @@ const Contact = () => {
             </div>
 
             {/* Image */}
-            <div ref={imageDivRef} className='absolute overflow-hidden lg:h-[45vw] md:h-[55vw] h-[95vw] lg:rounded-3xl rounded-xl lg:w-[25vw] md:w-[35vw] w-[65vw] lg:top-30 md:top-40 top-21 md:left-[10vw] right-[5vw] md:right-auto z-10' >
+            <div ref={imageDivRef} className='absolute overflow-hidden lg:h-[45vw] md:h-[55vw] h-[95vw] lg:rounded-3xl rounded-xl lg:w-[25vw] md:w-[35vw] w-[65vw]  lg:top-30 md:top-40 top-21 md:left-[10vw] right-[5vw] md:right-auto z-10' >
                 <Image className="w-full h-full object-cover" />
             </div>
 
-            <div className='relative font-[font2] z-30'>
+            <div className='relative font-[font2] '>
                 <div className='lg:mt-[25vh] md:mt-[40vh] mt-[55vh] overflow-hidden'>
                     <div className='leading-[10vw] overflow-hidden'>
                         <div className='leading-[2vw] overflow-hidden'>
                             <div className='lg:mt-[2vh] mt-[3vw]'>
-                                <h1 className='md:text-[10vw] text-[12vw] text text-start md:text-start md:right-0 relative md:left-[33vw] left-[5vw] uppercase md:leading-[7vw] leading-[9vw]'>Contact</h1>
+                                <h1 className='md:text-[10vw] text-[12vw]  text text-start md:text-start md:right-0 relative md:left-[33vw] left-[5vw] uppercase md:leading-[7vw] leading-[9vw] '>Contact</h1>
                             </div>
                         </div>
                     </div>
@@ -180,99 +312,125 @@ const Contact = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* Contact Form */}
-                <div className='md:pl-[40%] pl-[5%] md:-mt-[1vw] mt-4 mx-2 overflow-hidden contact-form'>
-                    <form onSubmit={handleSubmit} className="space-y-6 max-w-[90vw] md:max-w-none">
-                        <div className="form-element">
-                            <label htmlFor="name" className="block text-xl font-medium mb-2 text-gray-700">
-                                Name
-                            </label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                required
-                                className="w-full px-4 py-3 border-b-2 border-gray-300 focus:border-red-500 focus:outline-none bg-transparent transition-colors duration-300 text-lg"
-                                placeholder="Your name"
-                            />
-                        </div>
-
-                        <div className="form-element">
-                            <label htmlFor="email" className="block text-xl font-medium mb-2 text-gray-700">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                required
-                                className="w-full px-4 py-3 border-b-2 border-gray-300 focus:border-red-500 focus:outline-none bg-transparent transition-colors duration-300 text-lg"
-                                placeholder="your.email@example.com"
-                            />
-                        </div>
-
-                        <div className="form-element">
-                            <label htmlFor="subject" className="block text-xl font-medium mb-2 text-gray-700">
-                                Subject
-                            </label>
-                            <input
-                                type="text"
-                                id="subject"
-                                name="subject"
-                                value={formData.subject}
-                                onChange={handleInputChange}
-                                required
-                                className="w-full px-4 py-3 border-b-2 border-gray-300 focus:border-red-500 focus:outline-none bg-transparent transition-colors duration-300 text-lg"
-                                placeholder="What is this regarding?"
-                            />
-                        </div>
-
-                        <div className="form-element">
-                            <label htmlFor="message" className="block text-xl font-medium mb-2 text-gray-700">
-                                Message
-                            </label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                value={formData.message}
-                                onChange={handleInputChange}
-                                required
-                                rows={5}
-                                className="w-full px-4 py-3 border-b-2 border-gray-300 focus:border-red-500 focus:outline-none bg-transparent transition-colors duration-300 text-lg resize-none"
-                                placeholder="Your message here..."
-                            />
-                        </div>
-
-                        <div className="form-element">
-                            <div
-                                onMouseEnter={() => {
-                                    if (contactRef.current) {
-                                        contactRef.current.style.height = "100%";
-                                    }
-                                    setHoveredContact(true);
-                                }}
-                                onMouseLeave={() => {
-                                    if (contactRef.current) {
-                                        contactRef.current.style.height = "0%";
-                                    }
-                                    setHoveredContact(false);
-                                }}
-                                className="click bg-black h-[12vw] md:h-[8vw] lg:h-[4vw] w-[50vw] md:w-[25vw] lg:w-[15vw] relative cursor-pointer rounded-full overflow-hidden"
-                            >
-                                <div ref={contactRef} className="absolute bottom-0 left-0 w-full h-0 bg-[#D3FD50] transition-all duration-300"></div>
-                                <div className="h-full flex border border-[#D3FD50] items-center justify-center relative z-10">
-                                    <h2 className={`text-[4vw] md:text-[2vw] lg:text-[1vw] font-bold transition-colors duration-300 ${hoveredContact ? "text-black" : "text-white"}`} >
-                                        Contact Me
-                                    </h2>
-                                </div>
+                <div className='absolute md:-top-[25vh] hidden md:block z-10 lg:mt-[25vh] md:mt-[40vh] mt-[55vh] overflow-hidden'>
+                    <div className='leading-[10vw] overflow-hidden'>
+                        <div className='leading-[2vw] overflow-hidden'>
+                            <div className='lg:mt-[2vh] mt-[3vw]'>
+                                <h1 className='md:text-[10vw] text-[12vw]  text text-start md:text-start md:right-0 relative md:left-[33vw] left-[5vw] uppercase md:leading-[7vw] leading-[9vw] stroke-text'>Contact</h1>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div className='leading-[10vw] overflow-hidden'>
+                        <div className='leading-[2vw] overflow-hidden'>
+                            <div className='lg:mt-[2vh] mt-[3vw]'>
+                                <h1 className='md:text-[10vw] text-[12vw] text text-start md:text-start md:right-0 relative md:left-[33vw] left-[5vw] uppercase md:leading-[7vw] leading-[9vw] stroke-text'>Me</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Contact Form */}
+                <div className='md:pl-[38%] pl-[5%] md:-mt-[2vw] mt-4 mx-2 overflow-hidden contact-form'>
+                    <div className='p-5 bg-red-600/15 backdrop-blur-2xl rounded-3xl'>
+                        <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+                            <div className="form-element">
+                                <label htmlFor="name" className="block text-xl font-medium mb-2 text-gray-700">
+                                    Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`w-full px-4 py-3 border-b-2 focus:outline-none bg-transparent transition-colors duration-300 text-lg ${errors.name ? 'border-red-500' : 'border-gray-300 focus:border-[#D3FD50]'
+                                        }`}
+                                    placeholder="Your name"
+                                />
+                                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                            </div>
+
+                            <div className="form-element">
+                                <label htmlFor="email" className="block text-xl font-medium mb-2 text-gray-700">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`w-full px-4 py-3 border-b-2 focus:outline-none bg-transparent transition-colors duration-300 text-lg ${errors.email ? 'border-red-500' : 'border-gray-300 focus:border-[#D3FD50]'
+                                        }`}
+                                    placeholder="your.email@example.com"
+                                />
+                                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                            </div>
+
+                            <div className="form-element">
+                                <label htmlFor="subject" className="block text-xl font-medium mb-2 text-gray-700">
+                                    Subject
+                                </label>
+                                <input
+                                    type="text"
+                                    id="subject"
+                                    name="subject"
+                                    value={formData.subject}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`w-full px-4 py-3 border-b-2 focus:outline-none bg-transparent transition-colors duration-300 text-lg ${errors.subject ? 'border-red-500' : 'border-gray-300 focus:border-[#D3FD50]'
+                                        }`}
+                                    placeholder="What is this regarding?"
+                                />
+                                {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+                            </div>
+
+                            <div className="form-element">
+                                <label htmlFor="message" className="block text-xl font-medium mb-2 text-gray-700">
+                                    Message
+                                </label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleInputChange}
+                                    required
+                                    rows={5}
+                                    className={`w-full px-4 py-3 border-b-2 focus:outline-none bg-transparent transition-colors duration-300 text-lg resize-none ${errors.message ? 'border-red-500' : 'border-gray-300 focus:border-[#D3FD50]'
+                                        }`}
+                                    placeholder="Your message here..."
+                                />
+                                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+                            </div>
+
+                            <div className="form-element pt-4">
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    onMouseEnter={() => {
+                                        if (contactRef.current) {
+                                            contactRef.current.style.height = "100%";
+                                        }
+                                        setHoveredContact(true);
+                                    }}
+                                    onMouseLeave={() => {
+                                        if (contactRef.current) {
+                                            contactRef.current.style.height = "0%";
+                                        }
+                                        setHoveredContact(false);
+                                    }}
+                                    className="click bg-black h-[12vw] md:h-[8vw] lg:h-[4vw] w-[50vw] md:w-[25vw] lg:w-[15vw] relative cursor-pointer rounded-full overflow-hidden border border-[#D3FD50] flex items-center justify-center"
+                                >
+                                    <div ref={contactRef} className="absolute bottom-0 left-0 w-full h-0 bg-[#D3FD50] transition-all duration-300"></div>
+                                    <span className={`text-[4vw] md:text-[2vw] lg:text-[1vw] font-bold transition-colors duration-300 relative z-10 ${hoveredContact ? "text-black" : "text-white"}`}>
+                                        {isSubmitting ? 'Sending...' : 'Contact Me'}
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
