@@ -23,10 +23,32 @@ const Hero = () => {
 
     const playSound = () => {
         if (audioRef.current) {
-            audioRef.current.currentTime = 0; // restart each time
-            audioRef.current.play().catch(() => {}); // handle autoplay restrictions
+            audioRef.current.volume = 0.7; // optional
+            const sound = audioRef.current;
+            sound.currentTime = 0;
+            const playPromise = sound.play();
+            if (playPromise !== undefined) {
+                playPromise.catch((err) => {
+                    console.log("Playback prevented:", err);
+                });
+            }
         }
     };
+
+    useEffect(() => {
+        const unlockAudio = () => {
+            if (audioRef.current) {
+                audioRef.current.play().then(() => {
+                    audioRef.current.pause();
+                    audioRef.current.currentTime = 0;
+                });
+            }
+            window.removeEventListener("click", unlockAudio);
+        };
+        window.addEventListener("click", unlockAudio);
+    }, []);
+
+
 
     useEffect(() => {
         const lenis = new Lenis({
@@ -209,7 +231,7 @@ const Hero = () => {
                     </div>
 
                     {/* 🎵 hidden audio element */}
-                    <audio ref={audioRef} src={music.vibrate} preload="auto" />
+                    <audio ref={audioRef} src="/hover1.mp3" preload="auto" />
                 </div>
 
                 {/* Tagline + Buttons */}
