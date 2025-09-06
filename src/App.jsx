@@ -14,6 +14,10 @@ const App = () => {
   const cursorInnerRef = useRef(null)
   const [hovering, setHovering] = useState(false)
 
+  // 🔊 global audio ref
+  const audioRef = useRef(null)
+  const [audioUnlocked, setAudioUnlocked] = useState(false)
+
   // move cursor with gsap
   useEffect(() => {
     const moveCursor = (e) => {
@@ -63,6 +67,31 @@ const App = () => {
     }
   }, [])
 
+  // ✅ Unlock audio on *any* first user interaction
+  useEffect(() => {
+    const unlockAudio = () => {
+      if (audioRef.current && !audioUnlocked) {
+        audioRef.current
+          .play()
+          .then(() => {
+            audioRef.current.pause()
+            audioRef.current.currentTime = 0
+            setAudioUnlocked(true)
+            console.log("🔊 Audio unlocked globally ✅")
+          })
+          .catch(err => console.log("Unlock failed:", err))
+      }
+    }
+
+    window.addEventListener("click", unlockAudio)
+    window.addEventListener("touchstart", unlockAudio)
+
+    return () => {
+      window.removeEventListener("click", unlockAudio)
+      window.removeEventListener("touchstart", unlockAudio)
+    }
+  }, [audioUnlocked])
+
   return (
     <div className='bg-white'>
       {/* Custom Cursor */}
@@ -74,10 +103,7 @@ const App = () => {
         <div
           ref={cursorInnerRef}
           className="rounded-full bg-red-700"
-          style={{
-            width: 20,
-            height: 20,
-          }}
+          style={{ width: 20, height: 20 }}
         ></div>
       </div>
 
@@ -91,6 +117,9 @@ const App = () => {
         <Route path='/projects' element={<Projects />} />
       </Routes>
       <Footer />
+
+      {/* 🔊 Hidden audio used only for unlocking */}
+      <audio ref={audioRef} src="/hover1.mp3" preload="auto" />
     </div>
   )
 }

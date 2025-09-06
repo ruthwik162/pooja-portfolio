@@ -32,6 +32,7 @@ const icons = [
 const RolesOpen = () => {
   const rolesRef = useRef([]);
   const audioRef = useRef(null);
+  const unlockedRef = useRef(false);
 
   useEffect(() => {
     // ✅ Lenis smooth scroll
@@ -47,7 +48,7 @@ const RolesOpen = () => {
     }
     requestAnimationFrame(raf);
 
-    // ✅ GSAP hover animations + sound
+    // ✅ GSAP + hover with audio unlock
     rolesRef.current.forEach((el) => {
       if (!el) return;
       const fill = el.querySelector(".fill");
@@ -58,48 +59,44 @@ const RolesOpen = () => {
 
       el.addEventListener("mouseenter", () => {
         gsap.to(fill, { scaleY: 1, duration: 0.5, ease: "power2.out" });
-        gsap.to([text, icon], { color: "#ffffff", duration: 0.3, ease: "power2.out" });
+        gsap.to([text, icon], {
+          color: "#ffffff",
+          duration: 0.3,
+          ease: "power2.out",
+        });
 
-        // ✅ Play sound
+        // ✅ Unlock + play on first hover
         if (audioRef.current) {
-          audioRef.current.currentTime = 0;
-          const playPromise = audioRef.current.play();
-          if (playPromise !== undefined) {
-            playPromise.catch((err) => {
-              console.log("Playback prevented until user interaction:", err);
-            });
+          if (!unlockedRef.current) {
+            audioRef.current
+              .play()
+              .then(() => {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+                unlockedRef.current = true;
+                console.log("Audio unlocked ✅");
+              })
+              .catch((err) =>
+                console.log("Unlock failed (first hover):", err)
+              );
+          } else {
+            audioRef.current.currentTime = 0;
+            audioRef.current
+              .play()
+              .catch((err) => console.log("Playback failed:", err));
           }
         }
       });
 
       el.addEventListener("mouseleave", () => {
         gsap.to(fill, { scaleY: 0, duration: 0.5, ease: "power3.out" });
-        gsap.to([text, icon], { color: "#000000", duration: 0.3, ease: "power2.out" });
+        gsap.to([text, icon], {
+          color: "#000000",
+          duration: 0.3,
+          ease: "power2.out",
+        });
       });
     });
-
-    // ✅ Unlock audio on first click/tap
-    const unlockAudio = () => {
-      if (audioRef.current) {
-        audioRef.current.play().then(() => {
-          console.log("Audio Playing after Interaction");
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-        }).catch(err => {
-          console.log("Unlock failed:", err);
-        });
-      }
-      window.removeEventListener("click", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
-    };
-
-    window.addEventListener("click", unlockAudio);
-    window.addEventListener("touchstart", unlockAudio);
-
-    return () => {
-      window.removeEventListener("click", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
-    };
   }, []);
 
   return (
@@ -123,7 +120,7 @@ const RolesOpen = () => {
         ))}
       </div>
 
-      {/* ✅ File in /public → accessible with /hover1.mp3 */}
+      {/* ✅ Make sure hover1.mp3 is inside /public */}
       <audio ref={audioRef} src="/hover1.mp3" preload="auto" />
     </div>
   );
