@@ -247,7 +247,7 @@ const Hero = () => {
                     </div>
 
                     {/* 🎵 hidden audio element */}
-                    <audio ref={audioRef} src="/public/hover1.mp3" preload="auto" />
+                    <audio ref={audioRef} src="/hover1.mp3" preload="auto" />
                 </div>
 
                 {/* Tagline + Buttons */}
