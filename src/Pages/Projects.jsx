@@ -1,89 +1,181 @@
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
-import ProjectCard from '../Component/ProjectCard'
-
+import React, { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import ProjectCard from "../Component/ProjectCard";
 
 const Projects = () => {
+    const containerRef = useRef(null);
+    gsap.registerPlugin(ScrollTrigger);
 
-    const projects = [{
-        image1: 'https://k72.ca/uploads/caseStudies/PJC/Thumbnails/PJC_SiteK72_Thumbnail_1280x960-1280x960.jpg',
-        image2: 'https://k72.ca/uploads/caseStudies/WIDESCAPE/WS---K72.ca---Thumbnail-1280x960.jpg'
-    }, {
-        image1: 'https://k72.ca/uploads/caseStudies/OKA/OKA_thumbnail-1280x960.jpg',
-        image2: 'https://k72.ca/uploads/caseStudies/Opto/thumbnailimage_opto-1280x960.jpg'
-    }, {
-        image1: 'https://k72.ca/uploads/caseStudies/LAMAJEURE_-_Son_sur_mesure/chalaxeur-thumbnail_img-1280x960.jpg',
-        image2: 'https://k72.ca/uploads/caseStudies/SHELTON/thumbnailimage_shelton-1280x960.jpg'
-    }]
+    const projects = [
+        {
+            image:
+                "https://k72.ca/uploads/caseStudies/PJC/Thumbnails/PJC_SiteK72_Thumbnail_1280x960-1280x960.jpg",
+            title: "PJC",
+        },
+        {
+            image:
+                "https://k72.ca/uploads/caseStudies/WIDESCAPE/WS---K72.ca---Thumbnail-1280x960.jpg",
+            title: "Widescape",
+        },
+        {
+            image:
+                "https://k72.ca/uploads/caseStudies/OKA/OKA_thumbnail-1280x960.jpg",
+            title: "OKA",
+        },
+        {
+            image:
+                "https://k72.ca/uploads/caseStudies/Opto/thumbnailimage_opto-1280x960.jpg",
+            title: "Opto",
+        },
+    ];
 
-
-    gsap.registerPlugin(ScrollTrigger)
-
-    useGSAP(function () {
-        const tl = gsap.timeline();
-
-        gsap.from('.hero', {
-            height: '100px',
-            stagger: {
-                amount: 0.4
-            },
+    useGSAP(() => {
+        // Pin the title section
+        gsap.to(".title-container", {
             scrollTrigger: {
-                trigger: '.lol',
-                start: 'top 100%',
-                end: 'top -150%',
-                scrub: true
+                trigger: ".title-container",
+                start: "top top",
+                end: "+=400",
+                pin: true,
+                pinSpacing: false,
+                anticipatePin: 1,
             }
-        })
+        });
 
-        tl.from('.text', {
-            y: -250,           // start below the div
+        // Animate heading characters as before (without scrub)
+        gsap.from(".section-char", {
+            y: -200,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power3.out",
+            stagger: 0.05,
+        });
+
+        // Animate each project card with scrub and rotation
+        gsap.utils.toArray(".project-card").forEach((card, i) => {
+            gsap.fromTo(card,
+                {
+                    x: i % 2 === 0 ? -300 : 300,
+                    opacity: 0,
+                    rotation: i % 2 === 0 ? -5 : 5,
+                    filter: "blur(5px)"
+                },
+                {
+                    x: 0,
+                    opacity: 1,
+                    rotation: 0,
+                    filter: "blur(0px)",
+                    duration: 1.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 90%",
+                        end: "top 50%",
+                        scrub: 1.5,
+                    }
+                }
+            );
+        });
+
+        // Animate thanks text characters with scrub
+        gsap.utils.toArray(".thanks-line").forEach((line) => {
+            const chars = line.querySelectorAll(".thanks-char");
+
+            // Wrap each character in a span for better animation control
+            chars.forEach(char => {
+                const wrapper = document.createElement('span');
+                wrapper.className = 'char-wrapper inline-block overflow-hidden';
+                char.parentNode.replaceChild(wrapper, char);
+                wrapper.appendChild(char);
+            });
+
+            gsap.fromTo(line.querySelectorAll(".thanks-char"),
+                {
+                    y: 120,
+                    opacity: 0,
+                    rotation: 5,
+                    filter: "blur(3px)"
+                },
+                {
+                    y: 0,
+                    opacity: 1,
+                    rotation: 0,
+                    filter: "blur(0px)",
+                    duration: 1.2,
+                    ease: "power3.out",
+                    stagger: 0.03,
+                    scrollTrigger: {
+                        trigger: line,
+                        start: "top 85%",
+                        end: "top 40%",
+                        scrub: 1.2,
+                    }
+                }
+            );
+        });
+
+
+        gsap.from('.text', {
+            y: -150,           // start below the div
             duration: 1,
             stagger: 0.2,     // delay between each text
             ease: "power3.out"
         })
-    })
+    }, { scope: containerRef });
 
     return (
-        <div>
-            <div className='lg:p-4 p-2 selection:bg-[#D3FD50] bg-white'>
-                <div className='bg-white mt-[30vh] overflow-hidden'>
-                    <div className='text-[9vw] text font-[font2] uppercase text-black'>
-                        Projects
-                    </div>
-                </div>
-                <div className='-lg:mt-20 lol'>
-                    {projects.map(function (elem, idx) {
-                        return <div key={idx} className='hero w-full lg:h-[450px] mb-4 flex lg:flex-row grid-cols-2 flex-col lg:gap-4 gap-2'>
-                            <ProjectCard image1={elem.image1} image2={elem.image2} />
+        <div ref={containerRef} className="bg-white">
+            {/* Title with pin container */}
+            <div className="bg-white">
+                <div className='bg-white  overflow-hidden'>
+                    <div className="">
+                        <div className='text-[9vw] mx-[5vw] lg:mt-[40vh] text font-[font2] uppercase text-black'>
+                            {"Projects".split("").map((char, idx) => (
+                                <span key={idx} className="section-char  inline-block">
+                                    {char}
+                                </span>
+                            ))}
                         </div>
-                    })}
-
+                    </div>
                 </div>
             </div>
 
+            {/* Projects Grid */}
+            <div className="px-6 lg:px-16 mt-[10vh] grid md:grid-cols-2 gap-10">
+                {projects.map((project, idx) => (
+                    <div key={idx} className="project-card">
+                        <ProjectCard image={project.image} title={project.title} />
+                    </div>
+                ))}
+            </div>
 
-            <div className='bg-white  h-[30vh] md:h-[50vh]'>
-                <div className='flex flex-col items-start justify-center pl-[30%] pt-[10vh] overflow-hidden'>
-                    <div className='bg-white leading-[10vw] md:leading-[7vw] overflow-hidden'>
-                        <div className='text-[9vw] md:text-[7vw] text font-[font2] uppercase text-black'>
-                            Thanks
-                        </div>
-                    </div>
-                    <div className='bg-white leading-[10vw] md:leading-[7vw] overflow-hidden'>
-                        <div className='md:text-[7vw] text-[9vw] text font-[font2] uppercase text-black'>
-                            For Your
-                        </div>
-                    </div>
-                    <div className='bg-white leading-[11vw] md:leading-[7vw] overflow-hidden'>
-                        <div className='text-[13vw] md:text-[8vw] text font-[font2] uppercase text-black'>
-                            Patience
-                        </div>
-                    </div>
-                </div>
+            {/* Thanks Section */}
+            <div className="h-screen flex flex-col items-center leading-[8vw] justify-center gap-2">
+                {["Thanks", "For Your", "Patience"].map((line, i) => (
+                    <h2
+                        key={i}
+                        className="thanks-line font-[font2] uppercase text-black"
+                        style={{
+                            fontSize:
+                                i === 0
+                                    ? "10vw"
+                                    : i === 1
+                                        ? "9vw"
+                                        : "11vw",
+                        }}
+                    >
+                        {line.split("").map((char, idx) => (
+                            <span key={idx} className="thanks-char inline-block">
+                                {char}
+                            </span>
+                        ))}
+                    </h2>
+                ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Projects
+export default Projects;

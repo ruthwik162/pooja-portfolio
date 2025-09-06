@@ -97,14 +97,25 @@ const App = () => {
       {/* Custom Cursor */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block  items-center gap-2"
         style={{ transform: "translate(-50%, -50%)" }}
       >
+        <div>
+
+        </div>
         <div
           ref={cursorInnerRef}
           className="rounded-full bg-red-700"
           style={{ width: 20, height: 20 }}
-        ></div>
+        >
+          {!audioUnlocked && (
+            <span className="text-red-700 text-sm mx-7 text-center font-[font1] select-none whitespace-nowrap">
+              Click to get sounds
+            </span>
+          )}
+        </div>
+
+
       </div>
 
       {/* Layout */}

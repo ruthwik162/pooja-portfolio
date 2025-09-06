@@ -12,6 +12,8 @@ const Name = () => {
       stagger: 0.2,     // delay between each text
       ease: "power3.out"
     })
+
+    
   });
 
   return (

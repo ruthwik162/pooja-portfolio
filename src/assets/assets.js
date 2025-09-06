@@ -14,10 +14,12 @@ import circle from './circle.png'
 import orangestar from './orangestar.png'
 import purpleflower from './purpleflower.png'
 import spin from './spin.png'
+import pooja1 from './Pooja1.jpg'
 
 import ruthwik from './Ruthwik Profile.jpg'
 
 export const images={
+    pooja1,
     pooja,
     pooja2,
     logo,

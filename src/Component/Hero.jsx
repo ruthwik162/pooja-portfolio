@@ -97,8 +97,8 @@ const Hero = () => {
 
         if (hovering) {
             gsap.to(cursorInnerRef.current, {
-                width: 80,
-                height: 80,
+                width: 100,
+                height: 100,
                 duration: 0.5,
                 ease: "expo.out",
             });
@@ -154,8 +154,16 @@ const Hero = () => {
                 duration: 1.9,
                 ease: "power2.inOut",
             });
+
+            gsap.from(".spin", {
+                x:-100,
+                duration:1.3,
+                rotate:45,
+            })
         },
         { scope: heroRef }
+
+
     );
 
     return (
@@ -191,8 +199,14 @@ const Hero = () => {
 
             {/* LEFT SIDE */}
             <div className="relative md:w-2/3 md:mt-[5vw] h-full w-full">
+
+
                 {/* Name */}
-                <div className="items-start leading-[15vw] px-[4vw] flex-col flex font-[font1] justify-center">
+                <div className="items-start relative leading-[15vw] px-[4vw] flex-col flex font-[font1] justify-center">
+
+                    <div className="absolute md:top-0 spin md:-left-[5vw] -top-[40vw] -left-[20vw]  ">
+                        <img src={images.header} className="rotate-90 w-70 md:w-full" alt="" />
+                    </div>
                     <div className="md:leading-[8vw] leading-[17vw] overflow-hidden">
                         <div className="bg-white overflow-hidden">
                             <div
@@ -238,6 +252,7 @@ const Hero = () => {
 
                 {/* Tagline + Buttons */}
                 <div className="items-start flex-col pt-[2vw] px-[4vw] flex font-[font2] justify-center">
+
                     <div className="text-base md:text-[1.2vw] text-[3vw] leading-[3vw] md:leading-[1.3vw]">
                         <div className="bg-white overflow-hidden">
                             <div className="line will-change-transform">

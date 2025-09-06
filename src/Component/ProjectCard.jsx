@@ -1,23 +1,23 @@
-import React from 'react'
+import React from "react";
 
-const ProjectCard = (props) => {
-    return (
-        <>
-            <div className='lg:w-1/2 group transition-all relative rounded-none hover:rounded-[2vw]  overflow-hidden h-full '>
-                <img className='h-full w-full object-cover' src={props.image1} alt="" />
-                <div className='opacity-0 transition-opacity group-hover:opacity-100 absolute top-0 flex items-center justify-center left-0 h-full w-full bg-black/15'>
-                    <h2 className='uppercase text-6xl font-[font1] border-4 pt-4 px-8 text-white border-white rounded-full cursor-pointer '>View Project</h2>
-                </div>
-            </div>
-            <div className='lg:w-1/2 group transition-all relative rounded-none hover:rounded-[2vw]  overflow-hidden h-full '>
-                <img className='h-full w-full object-cover' src={props.image2} alt="" />
-                <div className='opacity-0 transition-opacity group-hover:opacity-100 absolute top-0 flex items-center justify-center left-0 h-full w-full bg-black/15'>
-                    <h2 className='uppercase text-6xl font-[font1] border-4 pt-4 px-8 text-white border-white rounded-full cursor-pointer '>View Project</h2>
-                </div>
-            </div>
-            
-        </>
-    )
-}
+const ProjectCard = ({ image, title }) => {
+  return (
+    <div className="group relative w-full h-[400px] lg:h-[500px] overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+      {/* Image */}
+      <img
+        className="h-full w-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
+        src={image}
+        alt={title}
+      />
 
-export default ProjectCard
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end justify-center">
+        <h2 className="uppercase text-3xl md:text-5xl font-[font1] text-white mb-10 tracking-widest border-2 border-white px-6 py-2 rounded-full">
+          {title}
+        </h2>
+      </div>
+    </div>
+  );
+};
+
+export default ProjectCard;

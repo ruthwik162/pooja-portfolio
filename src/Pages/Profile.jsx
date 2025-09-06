@@ -39,7 +39,9 @@ const Agence = () => {
       repeat: -1,
       ease: "linear",
       transformOrigin: "50% 50%",
+
     });
+
 
 
     // Animate SVG path (Trim Path effect)
@@ -156,21 +158,21 @@ const Agence = () => {
         circle,
         {
           rotate: 0,
-          transformOrigin: "50% 50%", // center of the div
+          transformOrigin: "center center", // spin from center
         },
         {
-          rotate: 360,
+          rotate: 1080, // multiple spins for turbo effect
           ease: "none",
-          duration: 2,
           scrollTrigger: {
             trigger: circle,
-            start: "top 80%",
-            end: "top 30%",
+            start: "top 90%",
+            end: "top -50%",
             scrub: true,
           },
         }
       );
     });
+
 
 
 
@@ -225,7 +227,7 @@ const Agence = () => {
         </div>
 
         {/* Image */}
-        <div ref={imageDivRef} className='absolute overflow-hidden lg:h-[40vw] xl:h-[40vw] z-5   md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-30 xl:left-[10vw] lg:-left-[2vw] -top-60 md:-left-[15vw] right-[3vw]' >
+        <div ref={imageDivRef} className='absolute overflow-hidden lg:h-[40vw] xl:h-[40vw] md:z-5   md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-30 xl:left-[10vw] lg:-left-[2vw] -top-60 md:-left-[15vw] right-[3vw]' >
           <Image className="w-full h-full object-cover" />
         </div>
 
@@ -298,13 +300,13 @@ const Agence = () => {
 
         <div className='relative mt-[5vh]'>
           <div className='bg-white  overflow-hidden'>
-            <div className='absolute  overflow-hidden imagedown lg:h-[40vw] xl:h-[40vw]   md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-10 xl:right-[5vw] lg:-right-[2vw] -top-20 md:-right-[15vw] -right-[32vw]' >
-              <img src={images.purpleflower} alt="" className='origin-center' />
+            <div className='absolute  overflow-hidden flex items-center justify-center imagedown lg:h-[40vw] xl:h-[40vw]   md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-10 xl:right-[5vw] lg:-right-[2vw] -top-20 md:-right-[15vw] -right-[32vw]' >
+              <img src={images.purpleflower} alt="" className='origin-center w-50 md:w-80' />
             </div>
           </div>
           <div className='leading-[2vw] overflow-hidden'>
             <div className='lg:mt-[10vh] xl:mt-[15vh]'>
-              <h1 className='md:text-[8vw] text-[15vw] text font-[font2] text-start md:text-start uppercase md:leading-[7vw] leading-[10vw]'>Skills</h1>
+              <h1 className='md:text-[8vw] text-[15vw] text font-[font2] text-start md:text-start uppercase md:leading-[7vw] leading-[13vw]'>Skills</h1>
             </div>
           </div>
           <div className='lg:pr-[40%] p-3 overflow-hidden'>

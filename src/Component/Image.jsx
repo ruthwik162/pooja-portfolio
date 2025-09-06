@@ -17,6 +17,8 @@ const Image = () => {
         ease: 'power3.out'
       }
     )
+
+
   }, [])
 
   return (
@@ -26,11 +28,13 @@ const Image = () => {
         ref={imgWrapperRef}
         className='image md:w-[30vw] lg:w-[28vw] xl:w-[25vw] sm:w-[45vw]  w-[65vw] mt-[5vh] md:mt-[10vh] lg:mt-[5vh] xl:mt-[10vh] z-4 rounded-2xl relative overflow-hidden'
       >
-        <img
-          src={images.pooja2}
-          alt=""
-          className='h-full w-full rounded-3xl object-cover'
-        />
+        <div className='p-2 border'>
+          <img
+            src={images.pooja1}
+            alt=""
+            className='h-full w-full rounded-3xl hover:scale-105 transition-all duration-500 object-cover'
+          />
+        </div>
       </div>
       {/* Caption */}
       <div className='font-[font2] text-[2vw] md:text-[0.7vw] text-thin text-center mt-[0.2vw]'>
@@ -41,4 +45,3 @@ const Image = () => {
 }
 
 export default Image
-  

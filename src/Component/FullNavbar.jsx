@@ -1,8 +1,8 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import { NavbarContext } from '../Context/NavContext'
-import { images, logos } from '../assets/assets'
+import { logos } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 
 const FullScreenNav = () => {
@@ -106,7 +106,7 @@ const FullScreenNav = () => {
         <div className="navlink flex w-full justify-between lg:p-5 p-2 items-start">
           <div className=''>
             <div className='lg:w-36 w-24'>
-              <img src={logos.logonav}  className='w-full h-full bg-white p-1 rounded-3xl object-cover' alt="" />
+              <img src={logos.logonav} className='w-full h-full bg-white p-1 rounded-3xl object-cover' alt="" />
             </div>
           </div>
           <div onClick={() => {
@@ -117,7 +117,16 @@ const FullScreenNav = () => {
 
           </div>
         </div>
-        <div className=' py-16 mt-[20vw] md:mt-[1vw]'>
+        <div className=' py-10 mt-[20vw] md:mt-[0vw]'>
+
+          <div onClick={() => handleNavClick("/")}
+            onMouseEnter={(e) => handleHover(e.currentTarget, true)}
+            onMouseLeave={(e) => handleHover(e.currentTarget, false)}
+            className='link origin-top cursor-pointer relative border-y-1 border-white'>
+            <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Home</h1>
+
+          </div>
+
           <div onClick={() => handleNavClick("/profile")}
             onMouseEnter={(e) => handleHover(e.currentTarget, true)}
             onMouseLeave={(e) => handleHover(e.currentTarget, false)}
