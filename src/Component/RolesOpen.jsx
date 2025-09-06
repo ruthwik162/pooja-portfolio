@@ -18,15 +18,15 @@ const roles = [
 ];
 
 const icons = [
-  <MdOutlineDesignServices />,
-  <SiFigma />,
-  <FaHtml5 />,
-  <SiTailwindcss />,
-  <FaJs />,
-  <FaNodeJs />,
-  <SiExpress />,
-  <FaJava />,
-  <SiGreensock />,
+  <MdOutlineDesignServices key="design" />,
+  <SiFigma key="figma" />,
+  <FaHtml5 key="html" />,
+  <SiTailwindcss key="tailwind" />,
+  <FaJs key="js" />,
+  <FaNodeJs key="node" />,
+  <SiExpress key="express" />,
+  <FaJava key="java" />,
+  <SiGreensock key="gsap" />,
 ];
 
 const RolesOpen = () => {
@@ -60,13 +60,13 @@ const RolesOpen = () => {
         gsap.to(fill, { scaleY: 1, duration: 0.5, ease: "power2.out" });
         gsap.to([text, icon], { color: "#ffffff", duration: 0.3, ease: "power2.out" });
 
-        // ✅ Play sound (after unlock)
+        // ✅ Play sound
         if (audioRef.current) {
           audioRef.current.currentTime = 0;
           const playPromise = audioRef.current.play();
           if (playPromise !== undefined) {
             playPromise.catch((err) => {
-              console.log("Playback prevented:", err);
+              console.log("Playback prevented until user interaction:", err);
             });
           }
         }
@@ -78,12 +78,15 @@ const RolesOpen = () => {
       });
     });
 
-    // ✅ Unlock audio on first click/tap (autoplay policy fix)
+    // ✅ Unlock audio on first click/tap
     const unlockAudio = () => {
       if (audioRef.current) {
         audioRef.current.play().then(() => {
+          console.log("Audio Playing after Interaction");
           audioRef.current.pause();
           audioRef.current.currentTime = 0;
+        }).catch(err => {
+          console.log("Unlock failed:", err);
         });
       }
       window.removeEventListener("click", unlockAudio);
@@ -120,7 +123,7 @@ const RolesOpen = () => {
         ))}
       </div>
 
-      {/* ✅ Correct: file in /public → access with /hover1.mp3 */}
+      {/* ✅ File in /public → accessible with /hover1.mp3 */}
       <audio ref={audioRef} src="/hover1.mp3" preload="auto" />
     </div>
   );

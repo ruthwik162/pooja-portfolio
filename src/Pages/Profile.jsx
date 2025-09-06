@@ -151,30 +151,28 @@ const Agence = () => {
       );
     });
 
-    gsap.utils.toArray('.imagedown').forEach((title) => {
+    gsap.utils.toArray(".imagedown").forEach((circle) => {
       gsap.fromTo(
-        title,
+        circle,
         {
-          y: 150,
-          opacity: 1,
-          rotate: 90, // start rotated
-          transformOrigin: "center center"
+          rotate: 0,
+          transformOrigin: "50% 50%", // center of the div
         },
         {
-          y: 0,
-          opacity: 1,
-          rotate: -90, // end straight
-          duration: 1.5,
-          ease: "power3.In",
+          rotate: 360,
+          ease: "none",
+          duration: 2,
           scrollTrigger: {
-            trigger: title,
+            trigger: circle,
             start: "top 80%",
-            end: "top 60%",
+            end: "top 30%",
             scrub: true,
-          }
+          },
         }
       );
     });
+
+
 
 
 
@@ -299,9 +297,9 @@ const Agence = () => {
       <div id='page2' className=" bg-white">
 
         <div className='relative mt-[5vh]'>
-          <div className='bg-white overflow-hidden'>
-            <div className='absolute overflow-hidden imagedown lg:h-[40vw] xl:h-[40vw] -rotate-90  md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-10 xl:-right-[15vw] lg:-right-[2vw] -top-20 md:-right-[15vw] -right-[32vw]' >
-              <img src={images.header} alt="" />
+          <div className='bg-white  overflow-hidden'>
+            <div className='absolute  overflow-hidden imagedown lg:h-[40vw] xl:h-[40vw]   md:h-[60vw] h-[95vw] lg:rounded-3xl rounded-xl xl:w-[25vw] lg:w-[40vw] w-[75vw] md:top-[25vh] lg:top-10 xl:right-[5vw] lg:-right-[2vw] -top-20 md:-right-[15vw] -right-[32vw]' >
+              <img src={images.purpleflower} alt="" className='origin-center' />
             </div>
           </div>
           <div className='leading-[2vw] overflow-hidden'>

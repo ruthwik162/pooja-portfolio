@@ -123,23 +123,7 @@ const FullScreenNav = () => {
             onMouseLeave={(e) => handleHover(e.currentTarget, false)}
             className='link origin-top cursor-pointer relative border-t-1 border-white'>
             <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Profile</h1>
-            <div className='moveLink absolute text-black flex top-0 bg-[#D3FD50]'>
-              <div className='moveX z-[-9] flex items-center'>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View my profile</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-red-500 rounded-full'></div>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View my profile</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-blue-500 rounded-full'></div>
 
-              </div>
-              <div className='moveX flex items-center'>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View my profile</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-orange-500 rounded-full'></div>
-
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View my profile</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-black rounded-full'></div>
-
-              </div>
-            </div>
           </div>
 
           <div onClick={() => handleNavClick("/projects")}
@@ -147,23 +131,7 @@ const FullScreenNav = () => {
             onMouseLeave={(e) => handleHover(e.currentTarget, false)}
             className='link origin-top cursor-pointer relative border-t-1 border-white'>
             <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Projects</h1>
-            <div className='moveLink absolute text-black flex top-0 bg-[#D3FD50]'>
-              <div className='moveX flex items-center'>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View all my Projects</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-black rounded-full'></div>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View all my Projects</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-black rounded-full'></div>
 
-              </div>
-              <div className='moveX flex items-center'>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View all my Projects</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-black rounded-full'></div>
-
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>View all my Projects</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-black rounded-full'></div>
-
-              </div>
-            </div>
           </div>
 
           <div onClick={() => handleNavClick("/contact")}
@@ -171,23 +139,7 @@ const FullScreenNav = () => {
             onMouseLeave={(e) => handleHover(e.currentTarget, false)}
             className='link origin-top cursor-pointer relative border-y-1 border-white'>
             <h1 className='font-[font2] text-5xl lg:text-[8vw] text-center lg:leading-[0.8] lg:pt-10 pt-3 uppercase'>Contact</h1>
-            <div className='moveLink absolute z-1 text-black flex top-0 bg-[#D3FD50]'>
-              <div className='moveX flex items-center'>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>Feel free to Ping Me</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-[-9] bg-red-900 rounded-full'></div>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>Feel free to Ping Me</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-[-9] bg-red-900 rounded-full'></div>
 
-              </div>
-              <div className='moveX flex items-center'>
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>Feel free to Ping Me</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-red-900 rounded-full'></div>
-
-                <h2 className='whitespace-nowrap font-[font2] lg:text-[8vw] text-5xl  text-center lg:leading-[0.8] lg:pt-10 pt-4 uppercase'>Feel free to Ping Me</h2>
-                <div className='md:w-60 md:h-20 w-30 h-10 z-0 bg-red-900 rounded-full'></div>
-
-              </div>
-            </div>
           </div>
         </div>
       </div>

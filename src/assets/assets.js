@@ -8,6 +8,14 @@ import click from './click1.mp3'
 import vibrate from './hover1.mp3'
 import logonav from './image.png'
 import logo2 from './logo2.png'
+import bluecircle from './bluecircles.png'
+import flowerbraccet from './flower braccet.svg'
+import circle from './circle.png'
+import orangestar from './orangestar.png'
+import purpleflower from './purpleflower.png'
+import spin from './spin.png'
+
+import ruthwik from './Ruthwik Profile.jpg'
 
 export const images={
     pooja,
@@ -16,6 +24,14 @@ export const images={
     cursor,
     image,
     header,
+    bluecircle,
+    flowerbraccet,
+    circle,
+    orangestar,
+    purpleflower,
+    spin,
+    ruthwik
+
 
 }
 
