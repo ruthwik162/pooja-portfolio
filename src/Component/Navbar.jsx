@@ -84,7 +84,7 @@ const Navbar = () => {
             {/* Logo */}
             <div className="overflow-hidden relative">
                 <div className='absolute md:top-[0.1vw] md:left-[11.5vw] -top-[0.5vw] z-1 '>
-                    <img src={images.purpleflower} className='w-5 animate-spin [animation-duration:2s]' alt="" />
+                    <img src={images.purpleflower} className='w-5 animate-spin hover:[animation-duration:0.5s] [animation-duration:2s]' alt="" />
                 </div>
                 <div className="logo leading-2 mx-[2vw] border p-1 rounded-tl-md rounded-br-md w-[25vw] md:w-[10vw]">
                     <Link to="/">

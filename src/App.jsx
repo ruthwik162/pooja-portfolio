@@ -130,9 +130,10 @@ const App = () => {
       {/* 🔊 Hidden audio used only for unlocking */}
       <audio
         ref={audioRef}
-        src={`${import.meta.env.BASE_URL}click1.mp3`}
+        src={`${import.meta.env.BASE_URL}hover1.mp3`}
         preload="auto"
       />
+
     </div>
   )
 }
