@@ -121,7 +121,7 @@ const RolesOpen = () => {
       </div>
 
       {/* ✅ Make sure hover1.mp3 is inside /public */}
-      <audio ref={audioRef} src="/hover1.mp3" preload="auto" />
+      <audio ref={audioRef} src="https://www.soundjay.com/buttons/sounds/button-50.mp3" preload="auto" />
     </div>
   );
 };

@@ -173,8 +173,8 @@ const Hero = () => {
           </div>
 
           {/* 🎵 hidden audio elements */}
-          <audio ref={hoverAudioRef} src="/hover1.mp3" preload="auto" />
-          <audio ref={clickAudioRef} src="/click1.mp3" preload="auto" />
+          <audio ref={hoverAudioRef} src="https://www.soundjay.com/buttons/sounds/button-50.mp3" preload="auto" />
+          <audio ref={clickAudioRef} src="https://www.soundjay.com/buttons/sounds/button-50.mp3" preload="auto" />
         </div>
 
         {/* Tagline + Buttons */}

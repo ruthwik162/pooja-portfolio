@@ -115,9 +115,17 @@ const App = () => {
       </Routes>
       <Footer />
 
-      {/* 🔊 Hidden audio elements */}
-      <audio ref={clickSound} src="/click1.mp3" preload="auto" />
-      <audio ref={hoverSound} src="/hover1.mp3" preload="auto" />
+      {/* 🔊 Hidden audio elements (Public URLs) */}
+      <audio 
+        ref={clickSound} 
+        src="https://www.soundjay.com/buttons/sounds/button-50.mp3" 
+        preload="auto" 
+      />
+      <audio 
+        ref={hoverSound} 
+        src="https://www.soundjay.com/buttons/sounds/button-50.mp3" 
+        preload="auto" 
+      />
     </div>
   )
 }
