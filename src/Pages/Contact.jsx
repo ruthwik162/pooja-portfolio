@@ -125,7 +125,7 @@ const Contact = () => {
             formDataEncoded.append('subject', formData.subject)
             formDataEncoded.append('message', formData.message)
 
-            const response = await fetch("https://portfolio-backend-q8dg.onrender.com/contact", {
+            const response = await fetch("https://pooja-server.onrender.com/contact", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
