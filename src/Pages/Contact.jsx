@@ -9,7 +9,6 @@ const Contact = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        subject: '',
         message: ''
     })
     const [errors, setErrors] = useState({})
@@ -40,13 +39,6 @@ const Contact = () => {
             newErrors.email = 'Email is required'
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             newErrors.email = 'Please enter a valid email address'
-        }
-
-        // Subject validation
-        if (!formData.subject.trim()) {
-            newErrors.subject = 'Subject is required'
-        } else if (formData.subject.trim().length < 5) {
-            newErrors.subject = 'Subject must be at least 5 characters'
         }
 
         // Message validation
@@ -118,13 +110,6 @@ const Contact = () => {
         setIsSubmitting(true)
 
         try {
-            // Create URL-encoded form data
-            const formDataEncoded = new URLSearchParams()
-            formDataEncoded.append('name', formData.name)
-            formDataEncoded.append('email', formData.email)
-            formDataEncoded.append('subject', formData.subject)
-            formDataEncoded.append('message', formData.message)
-
             const response = await fetch("https://pooja-server.onrender.com/contact", {
                 method: "POST",
                 headers: {
@@ -133,18 +118,16 @@ const Contact = () => {
                 body: JSON.stringify(formData)
             })
 
-
             if (response.ok) {
                 showToast("Thank you for your message! I will get back to you soon.")
                 setFormData({
                     name: '',
                     email: '',
-                    subject: '',
                     message: ''
                 })
             } else {
-                const errorData = await response.text()
-                showToast(errorData || "Something went wrong, please try again.", "error")
+                const errorData = await response.json()
+                showToast(errorData.error || "Something went wrong, please try again.", "error")
             }
         } catch (error) {
             console.error("Error submitting form:", error)
@@ -153,7 +136,6 @@ const Contact = () => {
             setIsSubmitting(false)
         }
     }
-
 
     useGSAP(function () {
         // Pin the image
@@ -367,24 +349,6 @@ const Contact = () => {
                                     placeholder="your.email@example.com"
                                 />
                                 {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-                            </div>
-
-                            <div className="form-element">
-                                <label htmlFor="subject" className="block text-xl font-medium mb-2 text-gray-700">
-                                    Subject
-                                </label>
-                                <input
-                                    type="text"
-                                    id="subject"
-                                    name="subject"
-                                    value={formData.subject}
-                                    onChange={handleInputChange}
-                                    required
-                                    className={`w-full px-4 py-3 border-b-2 focus:outline-none bg-transparent transition-colors duration-300 text-lg ${errors.subject ? 'border-red-500' : 'border-gray-300 focus:border-[#D3FD50]'
-                                        }`}
-                                    placeholder="What is this regarding?"
-                                />
-                                {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
                             </div>
 
                             <div className="form-element">
