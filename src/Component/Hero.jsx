@@ -6,7 +6,7 @@ import Image from "./Image.jsx";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroButtons from "./HeroButtons.jsx";
 import Lenis from "@studio-freight/lenis";
-import { images, music } from "../assets/assets.js";
+import { images } from "../assets/assets.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
