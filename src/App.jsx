@@ -55,14 +55,18 @@ const App = () => {
   // track hover state for links/buttons
   useEffect(() => {
     const hoverables = document.querySelectorAll("a, button")
+    const onEnter = () => setHovering(true)
+    const onLeave = () => setHovering(false)
+
     hoverables.forEach(el => {
-      el.addEventListener("mouseenter", () => setHovering(true))
-      el.addEventListener("mouseleave", () => setHovering(false))
+      el.addEventListener("mouseenter", onEnter)
+      el.addEventListener("mouseleave", onLeave)
     })
+
     return () => {
       hoverables.forEach(el => {
-        el.removeEventListener("mouseenter", () => setHovering(true))
-        el.removeEventListener("mouseleave", () => setHovering(false))
+        el.removeEventListener("mouseenter", onEnter)
+        el.removeEventListener("mouseleave", onLeave)
       })
     }
   }, [])
@@ -71,8 +75,7 @@ const App = () => {
   useEffect(() => {
     const unlockAudio = () => {
       if (audioRef.current && !audioUnlocked) {
-        audioRef.current
-          .play()
+        audioRef.current.play()
           .then(() => {
             audioRef.current.pause()
             audioRef.current.currentTime = 0
@@ -83,12 +86,12 @@ const App = () => {
       }
     }
 
-    window.addEventListener("click", unlockAudio)
-    window.addEventListener("touchstart", unlockAudio)
+    document.body.addEventListener("click", unlockAudio, { once: true })
+    document.body.addEventListener("touchstart", unlockAudio, { once: true })
 
     return () => {
-      window.removeEventListener("click", unlockAudio)
-      window.removeEventListener("touchstart", unlockAudio)
+      document.body.removeEventListener("click", unlockAudio)
+      document.body.removeEventListener("touchstart", unlockAudio)
     }
   }, [audioUnlocked])
 
@@ -97,12 +100,9 @@ const App = () => {
       {/* Custom Cursor */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block  items-center gap-2"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block items-center gap-2"
         style={{ transform: "translate(-50%, -50%)" }}
       >
-        <div>
-
-        </div>
         <div
           ref={cursorInnerRef}
           className="rounded-full bg-red-700"
@@ -114,8 +114,6 @@ const App = () => {
             </span>
           )}
         </div>
-
-
       </div>
 
       {/* Layout */}
@@ -130,7 +128,11 @@ const App = () => {
       <Footer />
 
       {/* 🔊 Hidden audio used only for unlocking */}
-      <audio ref={audioRef} src="/hover1.mp3" preload="auto" />
+      <audio
+        ref={audioRef}
+        src={`${import.meta.env.BASE_URL}click1.mp3`}
+        preload="auto"
+      />
     </div>
   )
 }

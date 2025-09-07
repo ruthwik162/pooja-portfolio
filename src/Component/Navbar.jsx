@@ -97,7 +97,7 @@ const Navbar = () => {
             </div>
 
             {/* Desktop Nav */}
-            <div ref={navbar} className="flex">
+            <div ref={navbar} className="flex uppercase">
                 {/* Profile */}
                 <div
                     onClick={() => navigate('/profile')}
@@ -107,7 +107,7 @@ const Navbar = () => {
                 >
                     <div ref={navProfile} className={`w-full absolute top-0 left-0 h-0 bg-[#B11C1C] rounded-bl-2xl transition-all duration-500 ease-in-out ${contact ? "h-full" : "h-0"}`}></div>
                     <div className="h-full relative flex items-center px-[2vw] justify-center z-10 md:gap-2 sm:gap-3 gap-1">
-                        <h1 className={`font-[font2] sm:text-[3vw] md:text-[3vw] lg:text-[2vw] text-[6vw] ${profileHover ? "text-black" : "text-white"}`} >  profile
+                        <h1 className={`font-[font2] sm:text-[3vw] md:text-[3vw] lg:text-[1.6vw] text-[6vw] ${profileHover ? "text-black" : "text-white"}`} >  profile
                         </h1>
                         <div className="flex flex-col gap-2 items-end justify-center">
                             <div className={`md:w-20 lg:w-22 xl:w-20 h-0.5 w-15 sm:w-20 ${profileHover ? "bg-black" : "bg-white"}`}  ></div>
@@ -125,7 +125,7 @@ const Navbar = () => {
                 >
                     <div ref={navProjects} className={`w-full absolute top-0 left-0 h-0 bg-[#B11C1C] rounded-bl-2xl transition-all duration-500 ease-in-out ${contact ? "h-full" : "h-0"}`}></div>
                     <div className="h-full relative flex items-center px-[2vw] justify-center z-10 md:gap-2 sm:gap-3 gap-1">
-                        <h1 className={`font-[font2] sm:text-[3vw] md:text-[3vw] lg:text-[2vw] text-[6vw] ${project ? "text-black" : "text-white"}`} >  project
+                        <h1 className={`font-[font2] sm:text-[3vw] md:text-[3vw] lg:text-[1.6vw] text-[6vw] ${project ? "text-black" : "text-white"}`} >  projects
                         </h1>
                         <div className="flex flex-col gap-2 items-end justify-center">
                             <div className={`md:w-20 lg:w-22 xl:w-20 h-0.5 w-15 sm:w-20 ${project ? "bg-black" : "bg-white"}`}  ></div>
@@ -144,7 +144,7 @@ const Navbar = () => {
                     {/* background fill */}
                     <div ref={contactRef} className={`w-full absolute top-0 left-0 h-0 bg-[#B11C1C] rounded-bl-2xl transition-all duration-500 ease-in-out ${contact ? "h-full" : "h-0"}`} ></div>
                     <div className="h-full relative flex items-center px-[2vw] justify-center z-10 md:gap-2 sm:gap-3 gap-1">
-                        <h1 className={`font-[font2] sm:text-[3vw] md:text-[3vw] lg:text-[2vw] text-[6vw] ${contact ? "text-black" : "text-white"}`} >  Contact
+                        <h1 className={`font-[font2] sm:text-[3vw] md:text-[3vw] lg:text-[1.6vw] text-[6vw] ${contact ? "text-black" : "text-white"}`} >  Contact
                         </h1>
                         <div className="flex flex-col gap-2 items-end justify-center">
                             <div className={`md:w-20 lg:w-22 xl:w-20 h-0.5 w-15 sm:w-20 ${contact ? "bg-black" : "bg-white"}`} ></div>

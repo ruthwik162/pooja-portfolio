@@ -104,8 +104,8 @@ const Hero = () => {
             });
         } else {
             gsap.to(cursorInnerRef.current, {
-                width: 20,
-                height: 20,
+                width: 0,
+                height: 0,
                 duration: 0.5,
                 ease: "expo.out",
             });
