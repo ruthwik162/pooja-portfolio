@@ -14,11 +14,11 @@ const App = () => {
   const cursorInnerRef = useRef(null)
   const [hovering, setHovering] = useState(false)
 
-  // 🔊 global audio ref
-  const audioRef = useRef(null)
-  const [audioUnlocked, setAudioUnlocked] = useState(false)
+  // 🔊 Audio refs
+  const clickSound = useRef(null)
+  const hoverSound = useRef(null)
 
-  // move cursor with gsap
+  // Move cursor with gsap
   useEffect(() => {
     const moveCursor = (e) => {
       gsap.to(cursorRef.current, {
@@ -32,7 +32,7 @@ const App = () => {
     return () => window.removeEventListener("mousemove", moveCursor)
   }, [])
 
-  // scale cursor on hover
+  // Scale cursor on hover
   useEffect(() => {
     if (!cursorInnerRef.current) return
     if (hovering) {
@@ -52,48 +52,42 @@ const App = () => {
     }
   }, [hovering])
 
-  // track hover state for links/buttons
+  // Track hover state for links/buttons + play sounds
   useEffect(() => {
-    const hoverables = document.querySelectorAll("a, button")
-    const onEnter = () => setHovering(true)
-    const onLeave = () => setHovering(false)
+    const buttons = document.querySelectorAll("button")
+    const links = document.querySelectorAll("a")
 
-    hoverables.forEach(el => {
-      el.addEventListener("mouseenter", onEnter)
-      el.addEventListener("mouseleave", onLeave)
-    })
-
-    return () => {
-      hoverables.forEach(el => {
-        el.removeEventListener("mouseenter", onEnter)
-        el.removeEventListener("mouseleave", onLeave)
-      })
-    }
-  }, [])
-
-  // ✅ Unlock audio on *any* first user interaction
-  useEffect(() => {
-    const unlockAudio = () => {
-      if (audioRef.current && !audioUnlocked) {
-        audioRef.current.play()
-          .then(() => {
-            audioRef.current.pause()
-            audioRef.current.currentTime = 0
-            setAudioUnlocked(true)
-            console.log("🔊 Audio unlocked globally ✅")
-          })
-          .catch(err => console.log("Unlock failed:", err))
+    const handleClick = () => {
+      if (clickSound.current) {
+        clickSound.current.currentTime = 0
+        clickSound.current.play().catch(err => console.log("Click sound error:", err))
       }
     }
 
-    document.body.addEventListener("click", unlockAudio, { once: true })
-    document.body.addEventListener("touchstart", unlockAudio, { once: true })
+    const handleHover = () => {
+      if (hoverSound.current) {
+        hoverSound.current.currentTime = 0
+        hoverSound.current.play().catch(err => console.log("Hover sound error:", err))
+      }
+      setHovering(true)
+    }
+
+    const handleLeave = () => setHovering(false)
+
+    buttons.forEach(btn => btn.addEventListener("click", handleClick))
+    links.forEach(link => {
+      link.addEventListener("mouseenter", handleHover)
+      link.addEventListener("mouseleave", handleLeave)
+    })
 
     return () => {
-      document.body.removeEventListener("click", unlockAudio)
-      document.body.removeEventListener("touchstart", unlockAudio)
+      buttons.forEach(btn => btn.removeEventListener("click", handleClick))
+      links.forEach(link => {
+        link.removeEventListener("mouseenter", handleHover)
+        link.removeEventListener("mouseleave", handleLeave)
+      })
     }
-  }, [audioUnlocked])
+  }, [])
 
   return (
     <div className='bg-white'>
@@ -107,13 +101,7 @@ const App = () => {
           ref={cursorInnerRef}
           className="rounded-full bg-red-700"
           style={{ width: 20, height: 20 }}
-        >
-          {!audioUnlocked && (
-            <span className="text-red-700 text-sm mx-7 text-center font-[font1] select-none whitespace-nowrap">
-              Click to get sounds
-            </span>
-          )}
-        </div>
+        ></div>
       </div>
 
       {/* Layout */}
@@ -127,13 +115,9 @@ const App = () => {
       </Routes>
       <Footer />
 
-      {/* 🔊 Hidden audio used only for unlocking */}
-      <audio
-        ref={audioRef}
-        src={`${import.meta.env.BASE_URL}hover1.mp3`}
-        preload="auto"
-      />
-
+      {/* 🔊 Hidden audio elements */}
+      <audio ref={clickSound} src="/click1.mp3" preload="auto" />
+      <audio ref={hoverSound} src="/hover1.mp3" preload="auto" />
     </div>
   )
 }
